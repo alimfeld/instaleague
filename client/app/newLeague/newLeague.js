@@ -3,10 +3,10 @@
 angular.module('instaleagueApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('leagues', {
-        url: '/leagues',
-        templateUrl: 'app/leagues/leagues.html',
-        controller: 'LeaguesCtrl',
+      .state('newLeague', {
+        url: '/newLeague',
+        templateUrl: 'app/newLeague/newLeague.html',
+        controller: 'NewleagueCtrl',
         authenticate: true
       });
   });

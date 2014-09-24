@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: LeaguesCtrl', function () {
+describe('Controller: NewleagueCtrl', function () {
 
   // load the controller's module
   beforeEach(module('instaleagueApp'));
 
-  var LeaguesCtrl, scope;
+  var NewleagueCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    LeaguesCtrl = $controller('LeaguesCtrl', {
+    NewleagueCtrl = $controller('NewleagueCtrl', {
       $scope: scope
     });
   }));
