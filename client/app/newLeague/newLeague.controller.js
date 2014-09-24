@@ -6,6 +6,7 @@ angular.module('instaleagueApp')
     $scope.createLeague = function() {
       $http.post('/api/leagues', {
         name: $scope.name,
+        path: $scope.path,
         competitors: $scope.competitors,
         tags: $scope.tags
       });

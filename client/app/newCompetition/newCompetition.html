@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="page-header">{{ league.name }}: round-robin competition</h1>
+      <h2>Games</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th ng-repeat="competitor in league.competitors">{{ competitor }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="competitor in league.competitors">
+            <th>{{ competitor }}</th>
+            <td ng-repeat="opponent in league.competitors">
+              <span ng-show="competitor !== opponent">
+                <input type="text" ng-model="score[$parent.$index][$index]">
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Tags</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th ng-repeat="tag in league.tags">{{ tag }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="competitor in league.competitors">
+            <th>{{ competitor }}</th>
+            <td ng-repeat="tag in league.tags"><input type="checkbox"></td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Standings</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th># Games</th>
+            <th># Wins</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="competitor in league.competitors">
+            <th>{{ competitor }}</th>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

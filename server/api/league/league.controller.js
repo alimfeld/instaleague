@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 
 // Get a single league
 exports.show = function(req, res) {
-  League.findById(req.params.id, function (err, league) {
+  League.findOne( { path: req.params.id }, function (err, league) {
     if(err) { return handleError(res, err); }
     if(!league) { return res.send(404); }
     return res.json(league);

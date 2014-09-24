@@ -5,8 +5,23 @@
       <input type="text"
              class="form-control"
              id="name"
-             placeholder="Name of the league"
+             placeholder="Name of this league"
              ng-model="name"
+             required
+             autofocus>
+    </div>
+    <div class="form-group">
+      <label for="name">Path
+        <span class="glyphicon glyphicon-info-sign"
+              tooltip="A unique path used in URLs to refer to this league. Only lowercase letters and digits are allowed.">
+        </span>
+      </label>
+      <input type="text"
+             class="form-control"
+             id="path"
+             placeholder="Path for this league"
+             ng-model="path"
+             pattern="[a-z0-9]*"
              required>
     </div>
     <div class="form-group">
@@ -20,14 +35,17 @@
              required>
     </div>
     <div class="form-group">
-      <label for="tags">Tags</label>
+      <label for="tags">Tags
+        <span class="glyphicon glyphicon-info-sign"
+              tooltip="Tags are used for competitor statistics. Tags may be assigned to competitors when performing a competition.">
+        </span>
+      </label>
       <input type="text"
              class="form-control"
              id="tags"
              placeholder="Comma separated list of tags"
              ng-model="tags"
-             ng-list
-             required>
+             ng-list>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>

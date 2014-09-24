@@ -4,10 +4,11 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var LeagueSchema = new Schema({
-  name: String,
+  name: { type: String, required: 'true' },
+  path: { type: String, required: 'true', index: { unique: true }},
   competitors: [String],
   tags: [String],
-  owner: String,
+  owner: { type: String, required: 'true' },
   created: Date,
   updated: Date
 });
