@@ -2,59 +2,85 @@
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">{{ league.name }}: round-robin competition</h1>
-      <h2>Games</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th ng-repeat="competitor in league.competitors">{{ competitor }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="competitor in league.competitors">
-            <th>{{ competitor }}</th>
-            <td ng-repeat="opponent in league.competitors">
-              <span ng-show="competitor !== opponent">
-                <input type="text" ng-model="score[$parent.$index][$index]">
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h2>Tags</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th ng-repeat="tag in league.tags">{{ tag }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="competitor in league.competitors">
-            <th>{{ competitor }}</th>
-            <td ng-repeat="tag in league.tags"><input type="checkbox"></td>
-          </tr>
-        </tbody>
-      </table>
-      <h2>Standings</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th># Games</th>
-            <th># Wins</th>
-            <th>Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="competitor in league.competitors">
-            <th>{{ competitor }}</th>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+      <tabset justified="true">
+        <tab heading="Settings">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>participates in competition?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in league.competitors">
+                <th>{{ competitor }}</th>
+                <td><input type="checkbox" ng-model="active[$index]"></td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Statistics">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="tag in league.tags">{{ tag }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in league.competitors" ng-show="active[$index]">
+                <th>{{ competitor }}</th>
+                <td ng-repeat="tag in league.tags"><input type="checkbox" ng-model="tags[$parent.$index][$index]"></td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Games">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="competitor in league.competitors" ng-show="active[$index]">{{ competitor }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in league.competitors" ng-show="active[$index]">
+                <th>{{ competitor }}</th>
+                <td class="score" ng-repeat="opponent in league.competitors" ng-show="active[$index]">
+                  <input type="number" min="0" ng-model="score[$parent.$index][$index]" ng-show="competitor !== opponent">
+                  <span ng-show="competitor === opponent">X</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Standings" select="updateResults()">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th># Games</th>
+                <th># Wins</th>
+                <th># Losses</th>
+                <th># Draws</th>
+                <th>Points</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in league.competitors" ng-show="active[$index]">
+                <th>{{ competitor }}</th>
+                <td>{{ results[$index].games }}</td>
+                <td>{{ results[$index].wins }}</td>
+                <td>{{ results[$index].losses }}</td>
+                <td>{{ results[$index].draws }}</td>
+                <td>{{ results[$index].plus }} : {{ results[$index].minus }} </td>
+                <td>{{ results[$index].score }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+      </tabset>
     </div>
   </div>
 </div>
