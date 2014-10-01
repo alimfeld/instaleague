@@ -13,7 +13,7 @@ angular.module('instaleagueApp')
         $scope.score[i] = [];
         $scope.tags[i] = [];
       });
-    }
+    };
 
     var initResult = function(i) {
       $scope.results[i] = {
