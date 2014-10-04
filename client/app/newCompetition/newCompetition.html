@@ -46,15 +46,15 @@
             <tbody>
               <tr ng-repeat="competitor in league.competitors" ng-show="active[$index]">
                 <th>{{ competitor }}</th>
-                <td class="score" ng-repeat="opponent in league.competitors" ng-show="active[$index]">
-                  <input type="number" min="0" ng-model="score[$parent.$index][$index]" ng-show="competitor !== opponent">
+                <td class="result" ng-repeat="opponent in league.competitors" ng-show="active[$index]">
+                  <input type="number" min="0" ng-model="results[$parent.$index][$index]" ng-show="competitor !== opponent">
                   <span ng-show="competitor === opponent">X</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </tab>
-        <tab heading="Standings" select="updateResults()">
+        <tab heading="Standings" select="updateScores()">
           <table class="table">
             <thead>
               <tr>
@@ -63,19 +63,21 @@
                 <th># Wins</th>
                 <th># Losses</th>
                 <th># Draws</th>
-                <th>Points</th>
-                <th>Score</th>
+                <th>+/-</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="competitor in league.competitors" ng-show="active[$index]">
-                <th>{{ competitor }}</th>
-                <td>{{ results[$index].games }}</td>
-                <td>{{ results[$index].wins }}</td>
-                <td>{{ results[$index].losses }}</td>
-                <td>{{ results[$index].draws }}</td>
-                <td>{{ results[$index].plus }} : {{ results[$index].minus }} </td>
-                <td>{{ results[$index].score }}</td>
+              <tr ng-repeat="score in scores" ng-show="active[score.competitor]">
+                <th>
+                  {{ scores[$index].rank + 1 }}.
+                  <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ scores[$index].hint }}"></span>
+                  {{ league.competitors[score.competitor] }}
+                </th>
+                <td>{{ scores[$index].games }}</td>
+                <td>{{ scores[$index].wins }}</td>
+                <td>{{ scores[$index].losses }}</td>
+                <td>{{ scores[$index].draws }}</td>
+                <td>{{ scores[$index].plus }} : {{ scores[$index].minus }} </td>
               </tr>
             </tbody>
           </table>
