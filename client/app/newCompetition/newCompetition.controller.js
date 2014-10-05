@@ -3,7 +3,7 @@
 angular.module('instaleagueApp')
   .controller('NewcompetitionCtrl', function ($scope, $http, $stateParams, ranking) {
 
-    var init = function() {
+    var initScope = function() {
       $scope.active = [];
       $scope.results = [];
       $scope.tags = [];
@@ -23,25 +23,40 @@ angular.module('instaleagueApp')
         losses: 0,
         draws: 0,
         plus: 0,
-        minus: 0
+        minus: 0,
+        rank: 0,
+        tied: undefined,
+        hint: undefined,
+        points: undefined
       };
     };
 
     $http.get('/api/leagues/' + $stateParams.league).success(function(league) {
       $scope.league = league;
-      init();
+      initScope();
     });
 
-    $scope.updateScores = function() {
+    var cleanupResults = function() {
       $scope.league.competitors.forEach(function(name, competitor) {
-        initScore(competitor);
         if (!$scope.active[competitor]) {
           $scope.results[competitor] = [];
-          return;
         }
         $scope.results[competitor].forEach(function(plus, opponent) {
           if (!$scope.active[opponent]) {
             $scope.results[competitor][opponent] = undefined;
+          }
+        });
+      });
+    };
+
+    var updateScoreStats = function() {
+      $scope.league.competitors.forEach(function(name, competitor) {
+        initScore(competitor);
+        if (!$scope.active[competitor]) {
+          return;
+        }
+        $scope.results[competitor].forEach(function(plus, opponent) {
+          if (!$scope.active[opponent]) {
             return;
           }
           var minus = $scope.results[opponent][competitor];
@@ -60,35 +75,57 @@ angular.module('instaleagueApp')
           }
         });
       });
+    };
+
+    var updateScoreRanks = function() {
       var ranks = ranking($scope.results,
                           $scope.active.map(function(active, index) {
                             return active ? index : undefined;
                           }).filter(function(competitor) {
                             return competitor !== undefined;
                           }),
-                          [{ fn: 'wins', overall: true },
-                            { fn: 'goalDifference', overall: true },
-                            { fn: 'goals', overall: true },
-                            { fn: 'wins', overall: false }]);
-      var updateRank = function(ranks, score) {
+                          [{ fn: 'wins' },
+                            { fn: 'goalDifference' },
+                            { fn: 'goals' },
+                            { fn: 'wins', direct: true }]);
+      var visitRank = function(ranks, score) {
         var newRanks = ranks.scores[score];
         if (newRanks.tieBreak) {
-          updateRanks(newRanks.tieBreak);
+          visitRanks(newRanks.tieBreak);
         } else {
           newRanks.competitors.forEach(function(competitor) {
-            $scope.scores[competitor].hint = (ranks.overall ? 'overall ' : 'direct ') + ranks.fn + ': ' + score;
+            $scope.scores[competitor].hint = (ranks.direct ? 'direct ' : '') + ranks.fn + ': ' + score;
             $scope.scores[competitor].rank = newRanks.rank;
+            $scope.scores[competitor].tied = newRanks.competitors.length - 1;
           });
         }
       };
-      var updateRanks = function(ranks) {
+      var visitRanks = function(ranks) {
         for (var score in ranks.scores) {
           if (ranks.scores.hasOwnProperty(score)) {
-            updateRank(ranks, score);
+            visitRank(ranks, score);
           }
         }
       };
-      updateRanks(ranks);
+      visitRanks(ranks);
+    };
+
+    var updateScorePoints = function() {
+      var nofCompetitors = $scope.active.reduce(function(prev, active) {
+        return active ? prev + 1 : prev;
+      }, 0);
+      $scope.scores.forEach(function(score) {
+        if (score.rank) {
+          score.points = 1 - (score.rank - 1 + score.tied / 2) / (nofCompetitors - 1);
+        }
+      });
+    }
+
+    $scope.updateScores = function() {
+      cleanupResults();
+      updateScoreStats();
+      updateScoreRanks();
+      updateScorePoints();
       $scope.scores.sort(function(a, b) {
         return a.rank - b.rank;
       });

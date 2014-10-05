@@ -64,12 +64,16 @@
                 <th># Losses</th>
                 <th># Draws</th>
                 <th>+/-</th>
+                <th>
+                  TP
+                  <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="Tournament points: Linearly distributed between one and zero based on rank."></span>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="score in scores" ng-show="active[score.competitor]">
                 <th>
-                  {{ scores[$index].rank + 1 }}.
+                  {{ scores[$index].rank }}.
                   <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ scores[$index].hint }}"></span>
                   {{ league.competitors[score.competitor] }}
                 </th>
@@ -78,11 +82,18 @@
                 <td>{{ scores[$index].losses }}</td>
                 <td>{{ scores[$index].draws }}</td>
                 <td>{{ scores[$index].plus }} : {{ scores[$index].minus }} </td>
+                <td>{{ scores[$index].points | number : 2 }}</td>
               </tr>
             </tbody>
           </table>
         </tab>
       </tabset>
+    </div>
+  </div>
+  <div class="row pull-right">
+    <div class="col-md-12">
+      <a href="/" class="btn btn-default">Cancel</a>
+      <button class="btn btn-primary">Save</button>
     </div>
   </div>
 </div>

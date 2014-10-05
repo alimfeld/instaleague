@@ -5,12 +5,12 @@ angular.module('instaleagueApp')
 
     var allTieBreakers = {};
 
-    var aggregate = function(results, competitors, competitor, overall, callback) {
+    var aggregate = function(results, competitors, competitor, direct, callback) {
       results[competitor].forEach(function(plus, opponent) {
         if (competitor === opponent) {
           return;
         }
-        if (overall || (competitors.indexOf(opponent) >= 0)) {
+        if (!direct || (competitors.indexOf(opponent) >= 0)) {
           var minus = results[opponent][competitor];
           if (plus !== undefined && minus !== undefined) {
             callback(plus, minus);
@@ -19,11 +19,11 @@ angular.module('instaleagueApp')
       });
     };
 
-    allTieBreakers.wins = function(results, competitors, overall) {
+    allTieBreakers.wins = function(results, competitors, direct) {
       var wins = [];
       competitors.forEach(function(competitor) {
         wins[competitor] = 0;
-        aggregate(results, competitors, competitor, overall, function(plus, minus) {
+        aggregate(results, competitors, competitor, direct, function(plus, minus) {
           if (plus > minus) {
             wins[competitor] += 1;
           }
@@ -32,12 +32,12 @@ angular.module('instaleagueApp')
       return wins;
     };
 
-    allTieBreakers.goalDifference = function(results, competitors, overall) {
+    allTieBreakers.goalDifference = function(results, competitors, direct) {
       var diff = [];
       competitors.forEach(function(competitor) {
         var plusCount = 0;
         var minusCount = 0;
-        aggregate(results, competitors, competitor, overall, function(plus, minus) {
+        aggregate(results, competitors, competitor, direct, function(plus, minus) {
           plusCount += plus;
           minusCount += minus;
         });
@@ -46,11 +46,11 @@ angular.module('instaleagueApp')
       return diff;
     };
 
-    allTieBreakers.goals = function(results, competitors, overall) {
+    allTieBreakers.goals = function(results, competitors, direct) {
       var goals = [];
       competitors.forEach(function(competitor) {
         goals[competitor] = 0;
-        aggregate(results, competitors, competitor, overall, function(plus) {
+        aggregate(results, competitors, competitor, direct, function(plus) {
           goals[competitor] += plus;
         });
       });
@@ -63,10 +63,10 @@ angular.module('instaleagueApp')
       if (tieBreaker) {
         tieBreak = {
           fn: tieBreaker.fn,
-          overall: tieBreaker.overall,
+          direct: tieBreaker.direct || false,
           scores: {}
         };
-        var scores = allTieBreakers[tieBreaker.fn](results, competitors, tieBreaker.overall);
+        var scores = allTieBreakers[tieBreaker.fn](results, competitors, tieBreaker.direct);
         var sortedScores = scores.slice().sort(function(a, b) {
           return b - a;
         });
@@ -77,7 +77,7 @@ angular.module('instaleagueApp')
           } else {
             tieBreak.scores[score] = {
               competitors: [competitor],
-              rank: sortedScores.indexOf(score) + (rankOffset || 0)
+              rank: sortedScores.indexOf(score) + (rankOffset || 0) + 1
             };
           }
         });
@@ -86,7 +86,7 @@ angular.module('instaleagueApp')
             var tiedCompetitors = tieBreak.scores[score].competitors;
             if (tiedCompetitors.length > 1) {
               var rank = tieBreak.scores[score].rank;
-              tieBreak.scores[score].tieBreak = breakTies(results, tiedCompetitors, tieBreakers.slice(1), rank);
+              tieBreak.scores[score].tieBreak = breakTies(results, tiedCompetitors, tieBreakers.slice(1), rank - 1);
             }
           }
         }
