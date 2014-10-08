@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('instaleagueApp')
-  .controller('NewcompetitionCtrl', function ($scope, $http, $stateParams, ranking) {
+  .controller('NewcompetitionCtrl', function ($scope, $http, $stateParams, $location, ranking) {
 
     var initScope = function() {
+      $scope.date = new Date();
       $scope.active = [];
       $scope.results = [];
       $scope.tags = [];
@@ -85,9 +86,9 @@ angular.module('instaleagueApp')
                             return competitor !== undefined;
                           }),
                           [{ fn: 'wins' },
-                            { fn: 'goalDifference' },
-                            { fn: 'goals' },
-                            { fn: 'wins', direct: true }]);
+                           { fn: 'goalDifference' },
+                           { fn: 'goals' },
+                           { fn: 'wins', direct: true }]);
       var visitRank = function(ranks, score) {
         var newRanks = ranks.scores[score];
         if (newRanks.tieBreak) {
@@ -121,6 +122,21 @@ angular.module('instaleagueApp')
       });
     }
 
+    $scope.isTagSelected = function(competitor, tag) {
+      return $scope.tags[competitor].indexOf(tag) > -1;
+    };
+
+    $scope.toggleTagSelection = function(competitor, tag) {
+      var tags = $scope.tags[competitor];
+      var idx = tags.indexOf(tag);
+      if (idx > -1) {
+        tags.splice(idx, 1);
+      } else {
+        tags.push(tag);
+      }
+      console.log(tags);
+    };
+
     $scope.updateScores = function() {
       cleanupResults();
       updateScoreStats();
@@ -128,6 +144,21 @@ angular.module('instaleagueApp')
       updateScorePoints();
       $scope.scores.sort(function(a, b) {
         return a.rank - b.rank;
+      });
+    };
+
+    $scope.save = function() {
+      $http.post('/api/competitions', {
+        date: $scope.date,
+        league: $scope.league._id,
+        data: $scope.scores.map(function(entry) {
+          entry.active = $scope.active[entry.competitor];
+          entry.tags = $scope.tags[entry.competitor];
+          entry.results = $scope.results[entry.competitor];
+          return entry;
+        })
+      }).success(function() {
+        $location.path('');
       });
     };
   });

@@ -4,6 +4,16 @@
       <h1 class="page-header">{{ league.name }}: round-robin competition</h1>
       <tabset justified="true">
         <tab heading="Settings">
+          <hr>
+          <form role="form" class="form-horizontal">
+            <div class="form-group">
+              <label class="form-label col-sm-1 col-sm-offset-1" for="date">Date</label>
+              <div class="col-sm-2">
+                <input class="form-control" id="date" type="date" ng-model="date">
+              </div>
+            </div>
+          </form>
+          <hr>
           <table class="table">
             <thead>
               <tr>
@@ -30,7 +40,12 @@
             <tbody>
               <tr ng-repeat="competitor in league.competitors" ng-show="active[$index]">
                 <th>{{ competitor }}</th>
-                <td ng-repeat="tag in league.tags"><input type="checkbox" ng-model="tags[$parent.$index][$index]"></td>
+                <td ng-repeat="tag in league.tags">
+                  <input type="checkbox"
+                         value="{{ tag }}"
+                         ng-checked="isTagSelected($parent.$index, tag)"
+                         ng-click="toggleTagSelection($parent.$index, tag)">
+                </td>
               </tr>
             </tbody>
           </table>
@@ -93,7 +108,7 @@
   <div class="row pull-right">
     <div class="col-md-12">
       <a href="/" class="btn btn-default">Cancel</a>
-      <button class="btn btn-primary">Save</button>
+      <button class="btn btn-primary" ng-click="save()">Save</button>
     </div>
   </div>
 </div>

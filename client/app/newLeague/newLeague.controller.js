@@ -9,7 +9,8 @@ angular.module('instaleagueApp')
         path: $scope.path,
         competitors: $scope.competitors,
         tags: $scope.tags
+      }).success(function() {
+        $location.path('');
       });
-      $location.path('');
     };
   });
