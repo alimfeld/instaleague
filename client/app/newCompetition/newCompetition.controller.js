@@ -120,7 +120,7 @@ angular.module('instaleagueApp')
           score.points = 1 - (score.rank - 1 + score.tied / 2) / (nofCompetitors - 1);
         }
       });
-    }
+    };
 
     $scope.isTagSelected = function(competitor, tag) {
       return $scope.tags[competitor].indexOf(tag) > -1;
