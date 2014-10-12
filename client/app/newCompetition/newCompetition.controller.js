@@ -134,7 +134,6 @@ angular.module('instaleagueApp')
       } else {
         tags.push(tag);
       }
-      console.log(tags);
     };
 
     $scope.updateScores = function() {
