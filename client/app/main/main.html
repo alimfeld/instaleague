@@ -21,21 +21,33 @@
     </div>
   </div>
   <div class="row">
-    <table class="table table-striped">
+    <table class="table">
       <thead>
         <tr>
-          <th>Rank</th>
           <th>Competitor</th>
           <th>Points</th>
+          <th>C (G)
+            <span class="glyphicon glyphicon-info-sign"
+                  tooltip="Competitions played (games played)">
+            </span>
+          </th>
+          <th>W/L/D
+            <span class="glyphicon glyphicon-info-sign"
+                  tooltip="Total wins / losses / draws">
+            </span>
+          </th>
           <th ng-repeat="tag in league.tags">{{ tag }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="competitor in league.competitors">
-          <td></td>
-          <td>{{ competitor }}</td>
-          <td></td>
-          <td ng-repeat="tag in league.tags"></td>
+        <tr ng-repeat="stat in stats">
+          <th>{{ stat.competitor }}</th>
+          <th>{{ stat.points || 0 | number : 2 }}</th>
+          <td>{{ stat.competitions || 0 }} ({{ stat.games || 0 }})</td>
+          <td>{{ stat.wins || 0 }}/{{ stat.losses || 0 }}/{{ stat.draws || 0 }}</td>
+          <td ng-repeat="tag in league.tags">
+            {{ stat.tags[$index] || 0 }}
+          </td>
         </tr>
       </tbody>
     </table>
