@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('instaleagueApp')
-  .controller('NewCompetitionCtrl', function ($scope, $http, $stateParams, $location) {
+  .controller('NewCompetitionCtrl', function ($scope, $http, $stateParams, $location, $modal) {
 
     var initScope = function() {
       $scope.date = new Date();
@@ -60,4 +60,30 @@ angular.module('instaleagueApp')
         $location.path('/competitions/' + competition._id);
       });
     };
+
+    $scope.editResult = function(competitor, opponent) {
+      var modalInstance = $modal.open({
+        templateUrl: 'app/newCompetition/editResult.html',
+        controller: 'EditResultCtrl',
+        size: 'sm',
+        resolve: {
+          entry: function() {
+            return {
+              competitor: competitor,
+              opponent: opponent,
+              competitorName: $scope.league.competitors[competitor],
+              opponentName: $scope.league.competitors[opponent],
+              plus: $scope.results[competitor][opponent],
+              minus: $scope.results[opponent][competitor]
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(function(entry) {
+        $scope.results[entry.competitor][entry.opponent] = entry.plus;
+        $scope.results[entry.opponent][entry.competitor] = entry.minus;
+      });
+    };
+
   });

@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{ entry.competitorName }} vs. {{ entry.opponentName }}</h3>
+</div>
+<div class="modal-body">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <input type="number" min="0" class="form-control" ng-model="entry.plus"> :
+      <input type="number" min="0" class="form-control" ng-model="entry.minus">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

@@ -65,7 +65,9 @@
               <tr ng-repeat="competitor in competitors">
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competitors">
-                  <input type="number" min="0" ng-model="results[competitor][opponent]" ng-show="competitor !== opponent">
+                  <button class="btn btn-default" ng-click="editResult(competitor, opponent)" ng-show="competitor !== opponent">
+                    {{ results[competitor][opponent] }} : {{ results[opponent][competitor] }}
+                  </button>
                   <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
                 </td>
               </tr>
@@ -77,8 +79,8 @@
   </div>
   <div class="row pull-right">
     <div class="col-md-12">
-      <a href="/" class="btn btn-default">Cancel</a>
       <button class="btn btn-primary" ng-click="save()">Save</button>
+      <a href="/" class="btn btn-warning">Cancel</a>
     </div>
   </div>
 </div>
