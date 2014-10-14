@@ -29,6 +29,19 @@ allTieBreakers.wins = function(results, competitors, direct) {
   return wins;
 };
 
+allTieBreakers.draws = function(results, competitors, direct) {
+  var draws = [];
+  competitors.forEach(function(competitor) {
+    draws[competitor] = 0;
+    aggregate(results, competitors, competitor, direct, function(plus, minus) {
+      if (plus === minus) {
+        draws[competitor] += 1;
+      }
+    });
+  });
+  return draws;
+};
+
 allTieBreakers.goalDifference = function(results, competitors, direct) {
   var diff = [];
   competitors.forEach(function(competitor) {

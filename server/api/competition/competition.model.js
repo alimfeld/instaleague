@@ -41,6 +41,7 @@ CompetitionSchema.pre('save', function(next) {
     this.results,
     this.competitors,
     [{ fn: 'wins' },
+      { fn: 'draws' },
       { fn: 'goalDifference' },
       { fn: 'goals' },
       { fn: 'wins', direct: true }]);
