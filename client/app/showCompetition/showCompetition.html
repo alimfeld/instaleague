@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="page-header">Competition in {{ league.name }} ({{ competition.date }})</h1>
+      <tabset>
+        <tab heading="Tags">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="tag in league.tags">{{ tag }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in competition.competitors">
+                <th>{{ league.competitors[competitor] }}</th>
+                <td ng-repeat="tag in league.tags">
+                  <span ng-show="competition.tags[competitor].indexOf($index) > -1" class="glyphicon glyphicon-ok"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Games">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="competitor in competition.competitors">{{ league.competitors[competitor] }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in competition.competitors">
+                <th>{{ league.competitors[competitor] }}</th>
+                <td ng-repeat="opponent in competition.competitors">
+                  <span ng-show="competitor !== opponent">{{ competition.results[competitor][opponent] }}</span>
+                  <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Standings">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th># Games</th>
+                <th># Wins</th>
+                <th># Losses</th>
+                <th># Draws</th>
+                <th>+/-</th>
+                <th>
+                  CP
+                  <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="Competition points: Linearly distributed between one and zero based on rank."></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="stat in competition.stats">
+                <th>
+                  {{ stat.rank }}.
+                  <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ stat.hint }}"></span>
+                  {{ league.competitors[stat.competitor] }}
+                </th>
+                <td>{{ stat.games }}</td>
+                <td>{{ stat.wins }}</td>
+                <td>{{ stat.losses }}</td>
+                <td>{{ stat.draws }}</td>
+                <td>{{ stat.plus }} : {{ stat.minus }} </td>
+                <td>{{ stat.points | number : 2 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+  <div class="row pull-right">
+    <div class="col-md-12">
+      <a href="/" class="btn btn-primary">Ok</a>
+    </div>
+  </div>
+</div>

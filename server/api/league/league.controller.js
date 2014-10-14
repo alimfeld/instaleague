@@ -1,7 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
-var League = require('./league.model');
+var _ = require('lodash'),
+    League = require('./league.model'),
+    mongoose = require('mongoose'),
+    ObjectId = mongoose.Types.ObjectId;
 
 // Get list of leagues
 exports.index = function(req, res) {
@@ -13,11 +15,19 @@ exports.index = function(req, res) {
 
 // Get a single league
 exports.show = function(req, res) {
-  League.findOne( { path: req.params.id }, function (err, league) {
-    if(err) { return handleError(res, err); }
-    if(!league) { return res.send(404); }
-    return res.json(league);
-  });
+  if (ObjectId.isValid(req.params.id)) {
+    League.findById(req.params.id, function (err, league) {
+      if(err) { return handleError(res, err); }
+      if(!league) { return res.send(404); }
+      return res.json(league);
+    });
+  } else {
+    League.findOne({ path: req.params.id }, function (err, league) {
+      if(err) { return handleError(res, err); }
+      if(!league) { return res.send(404); }
+      return res.json(league);
+    });
+  }
 };
 
 // Creates a new league in the DB.

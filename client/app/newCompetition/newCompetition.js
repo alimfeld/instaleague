@@ -6,7 +6,7 @@ angular.module('instaleagueApp')
       .state('newCompetition', {
         url: '/{league}/newCompetition',
         templateUrl: 'app/newCompetition/newCompetition.html',
-        controller: 'NewcompetitionCtrl',
+        controller: 'NewCompetitionCtrl',
         authenticate: true
       });
   });

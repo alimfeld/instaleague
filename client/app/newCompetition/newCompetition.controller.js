@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('instaleagueApp')
-  .controller('NewcompetitionCtrl', function ($scope, $http, $stateParams, $location) {
+  .controller('NewCompetitionCtrl', function ($scope, $http, $stateParams, $location) {
 
     var initScope = function() {
       $scope.date = new Date();
@@ -56,8 +56,8 @@ angular.module('instaleagueApp')
         competitors: $scope.competitors,
         tags: $scope.tags,
         results: $scope.results
-      }).success(function() {
-        $location.path('');
+      }).success(function(competition) {
+        $location.path('/competitions/' + competition._id);
       });
     };
   });
