@@ -3,43 +3,6 @@
     <div class="col-md-12">
       <h1 class="page-header">Competition in {{ league.name }} ({{ competition.date }})</h1>
       <tabset>
-        <tab heading="Tags">
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th ng-repeat="tag in league.tags">{{ tag }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="competitor in competition.competitors">
-                <th>{{ league.competitors[competitor] }}</th>
-                <td ng-repeat="tag in league.tags">
-                  <span ng-show="competition.tags[competitor].indexOf($index) > -1" class="glyphicon glyphicon-ok"></span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </tab>
-        <tab heading="Games">
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th ng-repeat="competitor in competition.competitors">{{ league.competitors[competitor] }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="competitor in competition.competitors">
-                <th>{{ league.competitors[competitor] }}</th>
-                <td ng-repeat="opponent in competition.competitors">
-                  <span ng-show="competitor !== opponent">{{ competition.results[competitor][opponent] }}</span>
-                  <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </tab>
         <tab heading="Standings">
           <table class="table">
             <thead>
@@ -69,6 +32,43 @@
                 <td>{{ stat.draws }}</td>
                 <td>{{ stat.plus }} : {{ stat.minus }} </td>
                 <td>{{ stat.points | number : 2 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Games">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="competitor in competition.competitors">{{ league.competitors[competitor] }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in competition.competitors">
+                <th>{{ league.competitors[competitor] }}</th>
+                <td ng-repeat="opponent in competition.competitors">
+                  <span ng-show="competitor !== opponent">{{ competition.results[competitor][opponent] }}</span>
+                  <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Tags">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="tag in league.tags">{{ tag }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in competition.competitors">
+                <th>{{ league.competitors[competitor] }}</th>
+                <td ng-repeat="tag in league.tags">
+                  <span ng-show="competition.tags[competitor].indexOf($index) > -1" class="glyphicon glyphicon-ok"></span>
+                </td>
               </tr>
             </tbody>
           </table>
