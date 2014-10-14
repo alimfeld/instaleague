@@ -11,6 +11,7 @@ var LeagueSchema = new Schema({
   competitors: [String],
   tags: [String],
   stats: [{
+    competitor: Number,
     competitions: Number,
     games: Number,
     wins: Number,
@@ -19,7 +20,16 @@ var LeagueSchema = new Schema({
     plus: Number,
     minus: Number,
     points: Number,
-    tags: [Number]
+    tags: [Number],
+    versus: [{
+      opponent: Number,
+      games: Number,
+      wins: Number,
+      losses: Number,
+      draws: Number,
+      plus: Number,
+      minus: Number
+    }]
   }],
   owner: { type: String, required: 'true' },
   created: Date,
@@ -56,13 +66,14 @@ function updateStats(league) {
         var tag = entry._id.tag;
         var tagStats = indexedTags[competitor] ||
           Array.apply(null, new Array(league.tags.length)).map(Number.prototype.valueOf, 0);
-        tagStats[league.tags.indexOf(tag)] = entry.sum;
+        tagStats[tag] = entry.sum;
         indexedTags[competitor] = tagStats;
       });
-      league.stats = [];
+      var result = [];
       stats.forEach(function(entry) {
         var competitor = entry._id;
         var stat = {
+          competitor: competitor,
           competitions: entry.competitions,
           games: entry.games,
           wins: entry.wins,
@@ -73,9 +84,9 @@ function updateStats(league) {
           points: entry.points,
           tags: indexedTags[competitor]
         };
-        // need to use <MongooseArray>#set function so mongoose gets notified of the change
-        league.stats.set(competitor, stat);
+        result.push(stat);
       });
+      league.stats = result;
       league.save(function(err) {
         if (err) {
           console.log(err);
@@ -88,17 +99,16 @@ function updateStats(league) {
 function getStats(league) {
   return Competition.aggregate([
     { $match: { league: league._id }},
-    { $unwind: '$data' },
-    { $match: { 'data.active': true }},
-    { $group: { _id: '$data.competitor',
+    { $unwind: '$stats' },
+    { $group: { _id: '$stats.competitor',
                 competitions: { $sum: 1 },
-                games: { $sum: '$data.games' },
-                wins: { $sum: '$data.wins' },
-                losses: { $sum: '$data.losses' },
-                draws: { $sum: '$data.draws' },
-                plus: { $sum: '$data.plus' },
-                minus: { $sum: '$data.minus' },
-                points: { $sum: '$data.points' }
+                games: { $sum: '$stats.games' },
+                wins: { $sum: '$stats.wins' },
+                losses: { $sum: '$stats.losses' },
+                draws: { $sum: '$stats.draws' },
+                plus: { $sum: '$stats.plus' },
+                minus: { $sum: '$stats.minus' },
+                points: { $sum: '$stats.points' }
               }
     }
   ]).exec();
@@ -107,10 +117,10 @@ function getStats(league) {
 function getTags(league) {
   return Competition.aggregate([
     { $match: { league: league._id }},
-    { $unwind: '$data' },
-    { $unwind: '$data.tags' },
-    { $group: { _id: { competitor: '$data.competitor',
-                       tag: '$data.tags'
+    { $unwind: '$stats' },
+    { $unwind: '$stats.tags' },
+    { $group: { _id: { competitor: '$stats.competitor',
+                       tag: '$stats.tags'
                      },
                 sum: { $sum: 1 }
               }

@@ -40,8 +40,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="stat in stats">
-          <th>{{ stat.competitor }}</th>
+        <tr ng-repeat="stat in league.stats">
+          <th>{{ league.competitors[stat.competitor] }}</th>
           <th>{{ stat.points || 0 | number : 2 }}</th>
           <td>{{ stat.competitions || 0 }} ({{ stat.games || 0 }})</td>
           <td>{{ stat.wins || 0 }}/{{ stat.losses || 0 }}/{{ stat.draws || 0 }}</td>

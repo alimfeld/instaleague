@@ -18,19 +18,10 @@ angular.module('instaleagueApp')
     }
 
     $scope.$watch('league', function(league) {
-      if (!league) {
-        $scope.stats = undefined;
-      } else {
-        var stats = [];
-        league.competitors.forEach(function(competitor, i) {
-          var stat = league.stats[i] || { points: 0 };
-          stat.competitor = competitor;
-          stats[i] = stat;
-        });
-        stats.sort(function(a, b) {
+      if (league) {
+        league.stats.sort(function(a, b) {
           return b.points - a.points;
         });
-        $scope.stats = stats;
       }
     });
 
