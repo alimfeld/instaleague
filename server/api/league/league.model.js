@@ -60,37 +60,34 @@ Competition.schema.post('save', function(competition) {
 function updateStats(league) {
   getStats(league).then(function(stats) {
     getTags(league).then(function(tags) {
-      var indexedTags = [];
-      tags.forEach(function(entry) {
-        var competitor = entry._id.competitor;
-        var tag = entry._id.tag;
-        var tagStats = indexedTags[competitor] ||
-          Array.apply(null, new Array(league.tags.length)).map(Number.prototype.valueOf, 0);
-        tagStats[tag] = entry.sum;
-        indexedTags[competitor] = tagStats;
-      });
-      var result = [];
-      stats.forEach(function(entry) {
-        var competitor = entry._id;
-        var stat = {
-          competitor: competitor,
-          competitions: entry.competitions,
-          games: entry.games,
-          wins: entry.wins,
-          losses: entry.losses,
-          draws: entry.draws,
-          plus: entry.plus,
-          minus: entry.minus,
-          points: entry.points,
-          tags: indexedTags[competitor]
-        };
-        result.push(stat);
-      });
-      league.stats = result;
-      league.save(function(err) {
-        if (err) {
-          console.log(err);
-        }
+      getVersus(league).then(function(versus) {
+        var result = [];
+        var indexedTags = indexTags(tags, league);
+        var indexedVersus = indexVersus(versus);
+        stats.forEach(function(entry) {
+          var competitor = entry._id;
+          var stat = {
+            competitor: competitor,
+            competitions: entry.competitions,
+            games: entry.games,
+            wins: entry.wins,
+            losses: entry.losses,
+            draws: entry.draws,
+            plus: entry.plus,
+            minus: entry.minus,
+            points: entry.points,
+            tags: indexedTags[competitor],
+            versus: indexedVersus[competitor]
+          };
+          console.log(stat);
+          result.push(stat);
+        });
+        league.stats = result;
+        league.save(function(err) {
+          if (err) {
+            console.log(err);
+          }
+        });
       });
     });
   });
@@ -126,6 +123,51 @@ function getTags(league) {
               }
     }
   ]).exec();
+}
+
+function indexTags(tags, league) {
+  var result = [];
+  tags.forEach(function(entry) {
+    var competitor = entry._id.competitor;
+    var tag = entry._id.tag;
+    var tagStats = result[competitor] ||
+      Array.apply(null, new Array(league.tags.length)).map(Number.prototype.valueOf, 0);
+    tagStats[tag] = entry.sum;
+    result[competitor] = tagStats;
+  });
+  return result;
+}
+
+function getVersus(league) {
+  return Competition.aggregate([
+    { $match: { league: league._id }},
+    { $unwind: '$stats' },
+    { $unwind: '$stats.versus' },
+    { $group: { _id: { competitor: '$stats.competitor',
+                       opponent: '$stats.versus.opponent'
+                     },
+                games: { $sum: '$stats.versus.games' },
+                wins: { $sum: '$stats.versus.wins' },
+                losses: { $sum: '$stats.versus.losses' },
+                draws: { $sum: '$stats.versus.draws' },
+                plus: { $sum: '$stats.versus.plus' },
+                minus: { $sum: '$stats.versus.minus' }
+              }
+    }
+  ]).exec();
+}
+
+function indexVersus(versus) {
+  var result = [];
+  versus.forEach(function(entry) {
+    var competitor = entry._id.competitor;
+    entry.opponent = entry._id.opponent;
+    delete entry._id;
+    var versus = result[competitor] || [];
+    versus.push(entry);
+    result[competitor] = versus;
+  });
+  return result;
 }
 
 module.exports = League;

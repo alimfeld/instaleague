@@ -119,32 +119,34 @@ var stats = function(results, competitors) {
     };
     competitors.forEach(function(opponent) {
       if (competitor !== opponent) {
-        var plus = results[competitor][opponent] || 0;
-        var minus = results[opponent][competitor] || 0;
-        var entry = result[competitor];
-        var versus = {
-          opponent: opponent,
-          games: 1,
-          wins: 0,
-          losses: 0,
-          draws: 0,
-          plus: plus,
-          minus: minus
-        };
-        if (plus > minus) {
-          entry.wins += 1;
-          versus.wins = 1;
-        } else if (plus < minus) {
-          entry.losses += 1;
-          versus.losses = 1;
-        } else {
-          entry.draws += 1;
-          versus.draws = 1;
+        var plus = results[competitor][opponent];
+        var minus = results[opponent][competitor];
+        if (plus !== undefined && minus !== undefined) {
+          var entry = result[competitor];
+          var versus = {
+            opponent: opponent,
+            games: 1,
+            wins: 0,
+            losses: 0,
+            draws: 0,
+            plus: plus,
+            minus: minus
+          };
+          if (plus > minus) {
+            entry.wins += 1;
+            versus.wins = 1;
+          } else if (plus < minus) {
+            entry.losses += 1;
+            versus.losses = 1;
+          } else {
+            entry.draws += 1;
+            versus.draws = 1;
+          }
+          entry.games += 1;
+          entry.plus += plus;
+          entry.minus += minus;
+          entry.versus.push(versus);
         }
-        entry.games += 1;
-        entry.plus += plus;
-        entry.minus += minus;
-        entry.versus.push(versus);
       }
     });
   });
