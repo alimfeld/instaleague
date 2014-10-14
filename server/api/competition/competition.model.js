@@ -46,6 +46,7 @@ CompetitionSchema.pre('save', function(next) {
       { fn: 'goals' },
       { fn: 'wins', direct: true }]);
   var competition = this;
+  console.log(this.stats);
   this.stats.forEach(function(stat) {
     stat.tags = competition.tags[stat.competitor];
   });

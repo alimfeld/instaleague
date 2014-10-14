@@ -46,8 +46,8 @@
                 <th>{{ league.competitors[competitor] }}</th>
                 <td ng-repeat="tag in league.tags">
                   <input type="checkbox"
-                         ng-checked="isTagSelected($parent.$index, $index)"
-                         ng-click="toggleTagSelection($parent.$index, $index)">
+                         ng-checked="isTagSelected(competitor, $index)"
+                         ng-click="toggleTagSelection(competitor, $index)">
                 </td>
               </tr>
             </tbody>

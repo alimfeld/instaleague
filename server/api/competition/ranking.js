@@ -186,7 +186,9 @@ var rank = function(results, competitors, tieBreakers) {
 
   visitRanks(ranks);
 
-  return result;
+  return result.filter(function(x) {
+    return x !== undefined;
+  });
 };
 
 module.exports = { rank: rank, breakTies: breakTies };
