@@ -1,4 +1,4 @@
-<header class="hero-unit" id="banner" ng-show="!isLoggedIn()">
+<header class="hero-unit" id="banner" ng-show="ready && !loggedIn">
   <div class="container">
     <h1>Instaleague</h1>
     <p class="lead">Instant league creation and management</p>
@@ -10,7 +10,7 @@
   </div>
 </header>
 
-<div class="container" ng-show="isLoggedIn() && league">
+<div class="container" ng-show="ready && loggedIn && league">
   <div class="row">
     <div class="col-lg-12">
       <form class="form-inline pull-right">
@@ -59,7 +59,7 @@
   </div>
 </div>
 
-<div class="container" ng-show="isLoggedIn() && !league">
+<div class="container" ng-show="ready && loggedIn && !league">
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">Welcome to Instaleague!</h1>
