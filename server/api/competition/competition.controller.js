@@ -1,7 +1,8 @@
 'use strict';
 
 var _ = require('lodash'),
-    Competition = require('./competition.model');
+    Competition = require('./competition.model'),
+    rank = require('./ranking');
 
 // Get list of competitions
 exports.index = function(req, res) {
@@ -52,6 +53,12 @@ exports.destroy = function(req, res) {
       return res.send(204);
     });
   });
+};
+
+// Calculates the ranks
+exports.rank = function(req, res) {
+  var result = rank.rankDefault(req.body.results, req.body.competitors);
+  return res.json(200, result);
 };
 
 function handleError(res, err) {

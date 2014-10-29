@@ -193,4 +193,13 @@ var rank = function(results, competitors, tieBreakers) {
   });
 };
 
-module.exports = { rank: rank, breakTies: breakTies };
+var rankDefault = function(results, competitors) {
+  return rank(results, competitors,
+    [{ fn: 'wins' },
+      { fn: 'draws' },
+      { fn: 'goalDifference' },
+      { fn: 'goals' },
+      { fn: 'wins', direct: true }]);
+};
+
+module.exports = { rank: rank, rankDefault: rankDefault, breakTies: breakTies };

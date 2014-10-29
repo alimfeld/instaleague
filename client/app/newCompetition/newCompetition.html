@@ -3,17 +3,15 @@
     <div class="col-md-12">
       <h1 class="page-header">{{ league.name }}: round-robin competition</h1>
       <tabset>
-        <tab heading="Settings">
-          <hr>
-          <form role="form" class="form-horizontal">
-            <div class="form-group">
-              <label class="form-label col-sm-1 col-sm-offset-1" for="date">Date</label>
-              <div class="col-sm-2">
-                <input class="form-control" id="date" type="date" ng-model="date">
-              </div>
+        <tab heading="General">
+          <form role="form">
+            <div class="form-group col-md-4">
+              <label for="date">Date</label>
+              <input class="form-control" id="date" type="date" ng-model="date">
             </div>
           </form>
-          <hr>
+        </tab>
+        <tab heading="Participation">
           <table class="table">
             <thead>
               <tr>
@@ -74,9 +72,43 @@
             </tbody>
           </table>
         </tab>
+        <tab heading="Standings" select="updateStats()">
+          <table class="table">
+            <thead>
+            <tr>
+              <th></th>
+              <th># Games</th>
+              <th># Wins</th>
+              <th># Losses</th>
+              <th># Draws</th>
+              <th>+/-</th>
+              <th>
+                CP
+                <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="Competition points: Linearly distributed between one and zero based on rank."></span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="stat in stats">
+              <th>
+                {{ stat.rank }}.
+                <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ stat.hint }}"></span>
+                {{ league.competitors[stat.competitor] }}
+              </th>
+              <td>{{ stat.games }}</td>
+              <td>{{ stat.wins }}</td>
+              <td>{{ stat.losses }}</td>
+              <td>{{ stat.draws }}</td>
+              <td>{{ stat.plus }} : {{ stat.minus }} </td>
+              <td>{{ stat.points | number : 2 }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
       </tabset>
     </div>
   </div>
+  <hr>
   <div class="row pull-right">
     <div class="col-md-12">
       <button class="btn btn-primary" ng-click="save()">Save</button>

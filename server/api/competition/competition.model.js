@@ -37,14 +37,7 @@ var CompetitionSchema = new Schema({
 });
 
 CompetitionSchema.pre('save', function(next) {
-  this.stats = ranking.rank(
-    this.results,
-    this.competitors,
-    [{ fn: 'wins' },
-      { fn: 'draws' },
-      { fn: 'goalDifference' },
-      { fn: 'goals' },
-      { fn: 'wins', direct: true }]);
+  this.stats = ranking.rankDefault(this.results, this.competitors);
   var competition = this;
   this.stats.forEach(function(stat) {
     stat.tags = competition.tags[stat.competitor];

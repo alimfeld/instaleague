@@ -49,6 +49,18 @@ angular.module('instaleagueApp')
       }
     };
 
+    $scope.updateStats = function() {
+      $http.post('/api/competitions/rank', {
+        competitors: $scope.competitors,
+        results: $scope.results
+      }).success(function(stats) {
+        stats.sort(function(a, b) {
+          return a.rank - b.rank;
+        });
+        $scope.stats = stats;
+      });
+    };
+
     $scope.save = function() {
       $http.post('/api/competitions', {
         date: $scope.date,
