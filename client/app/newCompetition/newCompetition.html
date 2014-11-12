@@ -64,7 +64,7 @@
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competitors">
                   <button class="btn btn-default" ng-click="editResult(competitor, opponent)" ng-show="competitor !== opponent">
-                    {{ results[competitor][opponent] || '-' }} : {{ results[opponent][competitor] || '-' }}
+                    {{ results[competitor][opponent] }} : {{ results[opponent][competitor] }}
                   </button>
                   <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
                 </td>
