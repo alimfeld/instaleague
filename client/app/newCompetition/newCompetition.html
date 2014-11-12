@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <h1 class="page-header">{{ league.name }}: round-robin competition</h1>
+    <div class="col-xs-12">
+      <h2>{{ league.name }} competition</h2>
       <tabset>
         <tab heading="General">
           <form role="form">
-            <div class="form-group col-md-4">
+            <div class="form-group col-xs-6">
               <label for="date">Date</label>
               <input class="form-control" id="date" type="date" ng-model="date">
             </div>
@@ -64,7 +64,7 @@
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competitors">
                   <button class="btn btn-default" ng-click="editResult(competitor, opponent)" ng-show="competitor !== opponent">
-                    {{ results[competitor][opponent] }} : {{ results[opponent][competitor] }}
+                    {{ results[competitor][opponent] || '-' }} : {{ results[opponent][competitor] || '-' }}
                   </button>
                   <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
                 </td>
@@ -108,9 +108,8 @@
       </tabset>
     </div>
   </div>
-  <hr>
   <div class="row pull-right">
-    <div class="col-md-12">
+    <div class="col-xs-12">
       <button class="btn btn-primary" ng-click="save()">Save</button>
       <a href="/" class="btn btn-warning">Cancel</a>
     </div>

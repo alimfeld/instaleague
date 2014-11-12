@@ -1,10 +1,9 @@
-<div class="navbar navbar-default navbar-static-top" ng-controller="NavbarCtrl">
+<div ng-controller="NavbarCtrl" ng-show="isLoggedIn()">
+  <hr>
   <div class="container">
-    <div id="navbar-main" ng-show="isLoggedIn()">
-      <p class="navbar-text navbar-right">
-        Hello {{ getCurrentUser().name }} |
-        <a href="#" ng-click="logout()">Logout</a>
-      </p>
-    </div>
+    <p class="text-center">
+      You are logged in as {{ getCurrentUser().name }} |
+      <a href="#" ng-click="logout()">Logout</a>
+    </p>
   </div>
 </div>

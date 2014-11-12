@@ -77,7 +77,7 @@ angular.module('instaleagueApp')
       var modalInstance = $modal.open({
         templateUrl: 'app/newCompetition/editResult.html',
         controller: 'EditResultCtrl',
-        size: 'sm',
+        size: 'lg',
         resolve: {
           entry: function() {
             return {
