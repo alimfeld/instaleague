@@ -105,7 +105,7 @@ function getStats(league) {
                 draws: { $sum: '$stats.draws' },
                 plus: { $sum: '$stats.plus' },
                 minus: { $sum: '$stats.minus' },
-                points: { $sum: '$stats.points' }
+                points: { $avg: '$stats.points' }
               }
     }
   ]).exec();
