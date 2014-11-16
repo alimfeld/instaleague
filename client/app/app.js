@@ -16,6 +16,8 @@ angular.module('instaleagueApp', [
     $httpProvider.interceptors.push('authInterceptor');
   })
 
+  .constant('_', window._)
+
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
     return {
       // Add authorization token to headers
