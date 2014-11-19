@@ -1,7 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h2>{{ league.name }} competition ({{ competition.date | date }})</h2>
+      <h1>{{ league.name }} competition ({{ competition.date | date }})</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
       <tabset>
         <tab heading="Standings">
           <table class="table">
@@ -76,9 +80,9 @@
       </tabset>
     </div>
   </div>
-  <div class="row pull-right">
+  <div class="row">
     <div class="col-xs-12">
-      <a href="/" class="btn btn-primary">Ok</a>
+      <a href="/{{ league.path }}" class="btn btn-lg btn-primary">Ok</a>
     </div>
   </div>
 </div>

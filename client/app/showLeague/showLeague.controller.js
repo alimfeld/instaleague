@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('instaleagueApp').controller('ShowLeagueCtrl', function ($scope, $http, $stateParams, _) {
+angular.module('instaleagueApp').controller('ShowLeagueCtrl', function ($scope, $http, $stateParams, _, Auth) {
   $http.get('/api/leagues/' + $stateParams.league).success(function(league) {
     league.stats.sort(function(a, b) {
       return b.points - a.points;
@@ -9,5 +9,6 @@ angular.module('instaleagueApp').controller('ShowLeagueCtrl', function ($scope, 
       stat.indexedVersus =  _.indexBy(stat.versus, 'opponent');
     });
     $scope.league = league;
+    $scope.canManage = Auth.getCurrentUser()._id === league.owner;
   });
 });

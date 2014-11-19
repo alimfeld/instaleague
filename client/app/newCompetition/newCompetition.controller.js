@@ -15,6 +15,20 @@ angular.module('instaleagueApp')
       });
     };
 
+    var isFinished = function() {
+      var result = true;
+      $scope.competitors.forEach(function(competitor) {
+        $scope.competitors.forEach(function(opponent) {
+          if (competitor !== opponent) {
+            if (($scope.results[competitor][opponent] === undefined) || ($scope.results[opponent][competitor] === undefined)) {
+              result = false;
+            }
+          }
+        });
+      });
+      return result;
+    };
+
     $http.get('/api/leagues/' + $stateParams.league).success(function(league) {
       $scope.league = league;
       initScope();
@@ -95,6 +109,7 @@ angular.module('instaleagueApp')
       modalInstance.result.then(function(entry) {
         $scope.results[entry.competitor][entry.opponent] = entry.plus;
         $scope.results[entry.opponent][entry.competitor] = entry.minus;
+        $scope.finished = isFinished();
       });
     };
 

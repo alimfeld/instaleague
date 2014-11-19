@@ -1,11 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h2>{{ league.name }} competition</h2>
+      <h1>{{ league.name }} competition</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
       <tabset>
         <tab heading="General">
+          <br>
           <form role="form">
-            <div class="form-group col-xs-6">
+            <div class="form-group">
               <label for="date">Date</label>
               <input class="form-control" id="date" type="date" ng-model="date">
             </div>
@@ -108,10 +113,10 @@
       </tabset>
     </div>
   </div>
-  <div class="row pull-right">
+  <div class="row">
     <div class="col-xs-12">
-      <button class="btn btn-primary" ng-click="save()">Save</button>
-      <a href="/" class="btn btn-warning">Cancel</a>
+      <button class="btn btn-lg btn-primary" ng-click="save()" ng-show="finished">Save</button>
+      <a href="/{{ league.path }}" class="btn btn-lg btn-warning">Cancel</a>
     </div>
   </div>
 </div>

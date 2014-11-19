@@ -7,7 +7,7 @@ var _ = require('lodash'),
 
 // Get list of leagues
 exports.index = function(req, res) {
-  League.find(function (err, leagues) {
+  League.find({ owner: req.user._id }, function (err, leagues) {
     if(err) { return handleError(res, err); }
     return res.json(200, leagues);
   });

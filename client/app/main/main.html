@@ -1,75 +1,22 @@
-<header class="hero-unit ng-hide" id="banner" ng-show="ready && !loggedIn">
-  <div class="container">
-    <h1>Instaleague</h1>
-    <p class="lead">Instant league creation and management</p>
-    <p class="lead">
-      <a class="btn btn-google-plus" href="" ng-click="loginOauth('google')">
-        <i class="fa fa-google-plus"></i> Connect with Google+
-      </a>
-    </p>
-  </div>
-</header>
-
-<div class="container ng-hide" ng-show="ready && loggedIn && league">
+<div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h2>{{ league.name }}</h2>
+      <h1>My leagues</h1>
     </div>
   </div>
   <div class="row">
-    <table class="table" ng-show="league.stats">
-      <thead>
-        <tr>
-          <th>Competitor</th>
-          <th>Points</th>
-          <th>C (G)
-            <span class="glyphicon glyphicon-info-sign"
-                  tooltip="Competitions played (games played)">
-            </span>
-          </th>
-          <th>W/L/D
-            <span class="glyphicon glyphicon-info-sign"
-                  tooltip="Total wins / losses / draws">
-            </span>
-          </th>
-          <th ng-repeat="tag in league.tags">{{ tag }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="stat in league.stats">
-          <th>{{ league.competitors[stat.competitor] }}</th>
-          <th>{{ stat.points || 0 | number : 2 }}</th>
-          <td>{{ stat.competitions || 0 }} ({{ stat.games || 0 }})</td>
-          <td>{{ stat.wins || 0 }}/{{ stat.losses || 0 }}/{{ stat.draws || 0 }}</td>
-          <td ng-repeat="tag in league.tags">
-            {{ stat.tags[$index] || 0 }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <form class="form-horizontal" role="form">
-      <div class="form-group">
-        <div class="col-xs-4">
-          <select class="form-control" ng-model="league" ng-options="league.name for league in leagues"></select>
-        </div>
-        <div class="col-xs-4">
-          <a class="btn btn-default" href="/newLeague">New league...</a>
-        </div>
-        <div class="col-xs-4">
-          <a class="btn btn-primary" href="/{{ league.path }}/newCompetition">New competition...</a>
-        </div>
+    <div class="col-xs-12">
+      <div class="list-group">
+        <a ng-repeat="league in leagues" href="/{{ league.path }}" class="list-group-item">
+          <h4>{{ league.name }}</h4>
+          <p><span ng-repeat="competitor in league.competitors">{{ competitor }}{{ $last ? '' : ', '}}</span></p>
+        </a>
       </div>
-    </form>
+    </div>
   </div>
-</div>
-
-<div class="container ng-hide" ng-show="ready && loggedIn && !league">
   <div class="row">
     <div class="col-xs-12">
-      <h2>Welcome to Instaleague!</h2>
-      <a class="btn btn-primary" href="/newLeague">Create your first league...</a>
+      <a class="btn btn-lg btn-primary" href="/newLeague">New league...</a>
     </div>
   </div>
 </div>

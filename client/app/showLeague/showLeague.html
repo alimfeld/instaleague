@@ -1,60 +1,73 @@
 <div class="container">
-  <h3>{{ league.name }}</h3>
-  <tabset>
-    <tab heading="Standings">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Competitor</th>
-          <th>Points</th>
-          <th>C (G) <span class="glyphicon glyphicon-info-sign" tooltip="Competitions played (games played)"></span></th>
-          <th>W/L/D <span class="glyphicon glyphicon-info-sign" tooltip="Total wins / losses / draws"></span></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="stat in league.stats">
-          <th>{{ $index + 1 }}. {{ league.competitors[stat.competitor] }}</th>
-          <th>{{ stat.points || 0 | number : 2 }}</th>
-          <td>{{ stat.competitions || 0 }} ({{ stat.games || 0 }})</td>
-          <td>{{ stat.wins || 0 }}/{{ stat.losses || 0 }}/{{ stat.draws || 0 }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </tab>
-    <tab heading="Tags">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Competitor</th>
-          <th ng-repeat="tag in league.tags">{{ tag }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="stat in league.stats">
-          <th>{{ league.competitors[stat.competitor] }}</th>
-          <td ng-repeat="tag in league.tags">{{ stat.tags[$index] || 0 }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </tab>
-    <tab heading="Versus">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Competitor</th>
-          <th ng-repeat="stat in league.stats">{{ league.competitors[stat.competitor] }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="stat in league.stats">
-          <th>{{ league.competitors[stat.competitor] }}</th>
-          <td ng-repeat="other in league.stats">
-            <span ng-show="stat.competitor !== other.competitor">{{ (stat.indexedVersus[other.competitor].wins + stat.indexedVersus[other.competitor].draws / 2) / stat.indexedVersus[other.competitor].games | number : 2 }}</span>
-            <span ng-show="stat.competitor === other.competitor" class="glyphicon glyphicon-remove"></span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </tab>
-  </tabset>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>{{ league.name }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <tabset>
+        <tab heading="Standings">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>Points</th>
+              <th>C (G) <span class="glyphicon glyphicon-info-sign" tooltip="Competitions played (games played)"></span></th>
+              <th>W/L/D <span class="glyphicon glyphicon-info-sign" tooltip="Total wins / losses / draws"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="stat in league.stats">
+              <th>{{ $index + 1 }}. {{ league.competitors[stat.competitor] }}</th>
+              <th>{{ stat.points || 0 | number : 2 }}</th>
+              <td>{{ stat.competitions || 0 }} ({{ stat.games || 0 }})</td>
+              <td>{{ stat.wins || 0 }}/{{ stat.losses || 0 }}/{{ stat.draws || 0 }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Tags">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Competitor</th>
+              <th ng-repeat="tag in league.tags">{{ tag }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="stat in league.stats">
+              <th>{{ league.competitors[stat.competitor] }}</th>
+              <td ng-repeat="tag in league.tags">{{ stat.tags[$index] || 0 }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Versus">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Competitor</th>
+              <th ng-repeat="stat in league.stats">{{ league.competitors[stat.competitor] }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="stat in league.stats">
+              <th>{{ league.competitors[stat.competitor] }}</th>
+              <td ng-repeat="other in league.stats">
+                <span ng-show="stat.competitor !== other.competitor">{{ (stat.indexedVersus[other.competitor].wins + stat.indexedVersus[other.competitor].draws / 2) / stat.indexedVersus[other.competitor].games | number : 2 }}</span>
+                <span ng-show="stat.competitor === other.competitor" class="glyphicon glyphicon-remove"></span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <a class="btn btn-lg btn-primary" href="/{{ league.path }}/newCompetition">New competition...</a>
+    </div>
+  </div>
 </div>
