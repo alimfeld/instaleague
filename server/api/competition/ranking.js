@@ -1,6 +1,12 @@
 'use strict';
 
+var _ = require('lodash');
+
 var allTieBreakers = {};
+
+var areNumbers = function(a, b) {
+  return _.isNumber(a) && _.isNumber(b);
+}
 
 var aggregate = function(results, competitors, competitor, direct, callback) {
   results[competitor].forEach(function(plus, opponent) {
@@ -9,7 +15,7 @@ var aggregate = function(results, competitors, competitor, direct, callback) {
     }
     if (!direct || (competitors.indexOf(opponent) >= 0)) {
       var minus = results[opponent][competitor];
-      if (plus !== undefined && minus !== undefined) {
+      if (areNumbers(plus, minus)) {
         callback(plus, minus);
       }
     }
@@ -121,7 +127,7 @@ var stats = function(results, competitors) {
       if (competitor !== opponent) {
         var plus = results[competitor][opponent];
         var minus = results[opponent][competitor];
-        if (plus !== undefined && minus !== undefined) {
+        if (areNumbers(plus, minus)) {
           var entry = result[competitor];
           var versus = {
             opponent: opponent,
