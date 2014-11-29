@@ -1,13 +1,10 @@
 'use strict';
 
-angular.module('instaleagueApp').controller('MainCtrl', function ($scope, $http) {
+angular.module('instaleagueApp').controller('MainCtrl', function ($scope, leagues) {
 
-  $scope.leagues = [];
-
-  $http.get('/api/leagues').success(function(leagues) {
-    leagues.sort(function(a, b) {
-      return a.updated < b.updated;
-    });
-    $scope.leagues = leagues;
+  leagues.data.sort(function(a, b) {
+    return a.updated < b.updated;
   });
+  $scope.leagues = leagues.data;
+
 });
