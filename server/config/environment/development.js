@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/instaleague-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

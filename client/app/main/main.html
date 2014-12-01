@@ -1,22 +1,33 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h1>My leagues</h1>
-    </div>
-  </div>
-  <div class="row" ng-show="leagues">
-    <div class="col-xs-12">
-      <div class="list-group">
-        <a ng-repeat="league in leagues" href="/{{ league.path }}" class="list-group-item">
-          <h4>{{ league.name }}</h4>
-          <p><span ng-repeat="competitor in league.competitors">{{ competitor }}{{ $last ? '' : ', '}}</span></p>
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <a class="btn btn-lg btn-primary" href="/newLeague">New league...</a>
+      <tabset>
+        <tab heading="My leagues">
+          <br>
+          <div class="list-group">
+            <a ng-repeat="league in leagues" href="/leagues/{{ league._id }}" class="list-group-item">
+              <h4>{{ league.name }}</h4>
+              <p><span ng-repeat="competitor in league.competitors">{{ competitor }}{{ $last ? '' : ', '}}</span></p>
+            </a>
+          </div>
+          <a class="btn btn-lg btn-primary" href="/newLeague">New league...</a>
+        </tab>
+        <tab ng-show="competitions.length">
+          <tab-heading>My ongoing competitions <span class="badge">{{ competitions.length }}</span></tab-heading>
+          <br>
+          <div class="list-group">
+            <a ng-repeat="competition in competitions" href="/leagues/{{ competition.league.id }}/competitions/{{ competition._id }}" class="list-group-item">
+              <h4>{{ competition.league.name }}</h4>
+              <p>{{ competition.date | date:'yyyy-MM-dd HH:mm' }}</p>
+              <p>
+                <span class="label label-default">{{ competition.competitors.length }} competitors</span>
+                <span class="label label-info" ng-show="me === competition.owner">Created by me</span>
+                <span class="label label-danger" ng-show="me === competition.league.owner">Needs confirmation by me</span>
+              </p>
+            </a>
+          </div>
+        </tab>
+      </tabset>
     </div>
   </div>
 </div>

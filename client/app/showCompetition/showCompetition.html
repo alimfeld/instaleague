@@ -1,59 +1,37 @@
-<div class="container">
+<div class="container" ng-show="league">
   <div class="row">
     <div class="col-xs-12">
-      <h1>{{ league.name }} competition ({{ competition.date | date }})</h1>
+      <h1>{{ league.name }} competition</h1>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <tabset>
-        <tab heading="Standings">
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th># Games</th>
-                <th># Wins</th>
-                <th># Losses</th>
-                <th># Draws</th>
-                <th>+/-</th>
-                <th>
-                  CP
-                  <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="Competition points: Linearly distributed between one and zero based on rank."></span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="stat in competition.stats">
-                <th>
-                  {{ stat.rank }}.
-                  <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ stat.hint }}"></span>
-                  {{ league.competitors[stat.competitor] }}
-                </th>
-                <td>{{ stat.games }}</td>
-                <td>{{ stat.wins }}</td>
-                <td>{{ stat.losses }}</td>
-                <td>{{ stat.draws }}</td>
-                <td>{{ stat.plus }} : {{ stat.minus }} </td>
-                <td>{{ stat.points | number : 2 }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <tab heading="General">
+          <br>
+          <form role="form">
+            <div class="form-group">
+              <label for="date">Date / Time</label>
+              <input class="form-control" id="date" type="date" ng-model="competition.date">
+              <timepicker ng-model="competition.date" show-meridian="false"></timepicker>
+            </div>
+          </form>
         </tab>
-        <tab heading="Games">
+        <tab heading="Participation">
           <table class="table">
             <thead>
               <tr>
                 <th></th>
-                <th ng-repeat="competitor in competition.competitors">{{ league.competitors[competitor] }}</th>
+                <th>participates in competition?</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="competitor in competition.competitors">
-                <th>{{ league.competitors[competitor] }}</th>
-                <td ng-repeat="opponent in competition.competitors">
-                  <span ng-show="competitor !== opponent">{{ competition.results[competitor][opponent] }}</span>
-                  <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
+              <tr ng-repeat="competitor in league.competitors">
+                <th>{{ competitor }}</th>
+                <td>
+                  <input type="checkbox"
+                         ng-checked="isCompetitor($index)"
+                         ng-click="toggleCompetitor($index)">
                 </td>
               </tr>
             </tbody>
@@ -71,9 +49,65 @@
               <tr ng-repeat="competitor in competition.competitors">
                 <th>{{ league.competitors[competitor] }}</th>
                 <td ng-repeat="tag in league.tags">
-                  <span ng-show="competition.tags[competitor].indexOf($index) > -1" class="glyphicon glyphicon-ok"></span>
+                  <input type="checkbox"
+                         ng-checked="isTagSelected(competitor, $index)"
+                         ng-click="toggleTagSelection(competitor, $index)">
                 </td>
               </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Games">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th ng-repeat="competitor in competition.competitors">{{ league.competitors[competitor] }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="competitor in competition.competitors">
+                <th>{{ league.competitors[competitor] }}</th>
+                <td class="result" ng-repeat="opponent in competition.competitors">
+                  <button class="btn btn-default" ng-click="editResult(competitor, opponent)" ng-show="competitor !== opponent">
+                    {{ competition.results[competitor][opponent] }} : {{ competition.results[opponent][competitor] }}
+                  </button>
+                  <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Standings">
+          <table class="table">
+            <thead>
+            <tr>
+              <th></th>
+              <th># Games</th>
+              <th># Wins</th>
+              <th># Losses</th>
+              <th># Draws</th>
+              <th>+/-</th>
+              <th>
+                CP
+                <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="Competition points: Linearly distributed between one and zero based on rank."></span>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="stat in competition.stats">
+              <th>
+                {{ stat.rank }}.
+                <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ stat.hint }}"></span>
+                {{ league.competitors[stat.competitor] }}
+              </th>
+              <td>{{ stat.games }}</td>
+              <td>{{ stat.wins }}</td>
+              <td>{{ stat.losses }}</td>
+              <td>{{ stat.draws }}</td>
+              <td>{{ stat.plus }} : {{ stat.minus }} </td>
+              <td>{{ stat.points | number : 2 }}</td>
+            </tr>
             </tbody>
           </table>
         </tab>
@@ -82,7 +116,8 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <a href="/{{ league.path }}" class="btn btn-lg btn-primary">Ok</a>
+      <button class="btn btn-lg btn-primary" ng-click="save()" ng-disabled="!dirty">Save</button>
+      <button class="btn btn-lg btn-danger" ng-click="confirm()" ng-disabled="dirty" ng-show="!competition.confirmed && competition.league.owner === me._id">Confirm</button>
     </div>
   </div>
 </div>

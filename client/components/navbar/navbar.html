@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="NavbarCtrl" ng-show="isLoggedIn()">
+<nav class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="NavbarCtrl">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
@@ -10,7 +10,7 @@
       <a class="navbar-brand" href="/">Instaleague</a>
     </div>
     <div class="collapse navbar-collapse" collapse="navCollapsed">
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
         <li><a href="/settings">Settings</a></li>
         <li><a href="#" ng-click="logout()">Logout</a></li>
       </ul>

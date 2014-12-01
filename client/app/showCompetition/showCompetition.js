@@ -3,10 +3,18 @@
 angular.module('instaleagueApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('competition', {
-        url: '/competitions/{competition}',
+      .state('showCompetition', {
+        url: '/leagues/{league}/competitions/{competition}',
         templateUrl: 'app/showCompetition/showCompetition.html',
         controller: 'ShowCompetitionCtrl',
-        authenticate: true
+        authenticate: true,
+        resolve: {
+          league: function($http, $stateParams) {
+            return $http.get('/api/leagues/' + $stateParams.league);
+          },
+          competition: function($http, $stateParams) {
+            return $http.get('/api/competitions/' + $stateParams.competition);
+          }
+        }
       });
   });

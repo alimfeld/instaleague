@@ -1,12 +1,21 @@
 'use strict';
 
 var _ = require('lodash'),
-    Competition = require('./competition.model'),
-    rank = require('./ranking');
+    Competition = require('./competition.model');
 
 // Get list of competitions
 exports.index = function(req, res) {
-  Competition.find(function (err, competitions) {
+  var query = {
+    $or: [{
+      owner: req.user._id
+    }, {
+      league: {
+        owner: req.user._id
+      }
+    }],
+    confirmed: false
+  };
+  Competition.find(query, function (err, competitions) {
     if(err) { return handleError(res, err); }
     return res.json(200, competitions);
   });
@@ -23,9 +32,34 @@ exports.show = function(req, res) {
 
 // Creates a new competition in the DB.
 exports.create = function(req, res) {
-  Competition.create(req.body, function(err, competition) {
+  var newCompetition = req.body;
+  newCompetition.owner = req.user._id;
+  Competition.create(newCompetition, function(err, competition) {
     if(err) { return handleError(res, err); }
     return res.json(201, competition);
+  });
+};
+
+// Acts on a competition
+exports.act = function(req, res) {
+  Competition.findById(req.params.id, function (err, competition) {
+    if (err) { return handleError(res, err); }
+    if(!competition) { return res.send(404); }
+    if (req.body.action === 'confirm') {
+      if (competition.confirmed === true) {
+        return res.send(409);
+      }
+      if (competition.league.owner !== req.user._id.toString()) {
+        return res.send(403);
+      }
+      competition.confirmed = true;
+      competition.save(function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(204, competition);
+      });
+    } else {
+      return res.send(400);
+    }
   });
 };
 
@@ -35,7 +69,9 @@ exports.update = function(req, res) {
   Competition.findById(req.params.id, function (err, competition) {
     if (err) { return handleError(res, err); }
     if(!competition) { return res.send(404); }
-    var updated = _.merge(competition, req.body);
+    var updated = _.merge(competition, req.body, function(objectValue, sourceValue) {
+      return _.isArray(sourceValue) ? sourceValue : undefined;
+    });
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, competition);
@@ -53,12 +89,6 @@ exports.destroy = function(req, res) {
       return res.send(204);
     });
   });
-};
-
-// Calculates the ranks
-exports.rank = function(req, res) {
-  var result = rank.rankDefault(req.body.results, req.body.competitors);
-  return res.json(200, result);
 };
 
 function handleError(res, err) {

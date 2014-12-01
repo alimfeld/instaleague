@@ -7,7 +7,6 @@ var mongoose = require('mongoose'),
 
 var LeagueSchema = new Schema({
   name: { type: String, required: 'true' },
-  path: { type: String, required: 'true', index: { unique: true }},
   competitors: [String],
   tags: [String],
   stats: [{
@@ -48,13 +47,15 @@ LeagueSchema.pre('save', function(next) {
 });
 
 Competition.schema.post('save', function(competition) {
-  League.findById(new ObjectId(competition.league), function(err, league) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    updateStats(league);
-  });
+  if (competition.confirmed) {
+    League.findById(new ObjectId(competition.league.id), function(err, league) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      updateStats(league);
+    });
+  }
 });
 
 function updateStats(league) {
@@ -79,7 +80,6 @@ function updateStats(league) {
             tags: indexedTags[competitor],
             versus: indexedVersus[competitor]
           };
-          console.log(stat);
           result.push(stat);
         });
         league.stats = result;
@@ -95,7 +95,7 @@ function updateStats(league) {
 
 function getStats(league) {
   return Competition.aggregate([
-    { $match: { league: league._id }},
+    { $match: { 'league.id': league._id }},
     { $unwind: '$stats' },
     { $group: { _id: '$stats.competitor',
                 competitions: { $sum: 1 },
@@ -113,7 +113,7 @@ function getStats(league) {
 
 function getTags(league) {
   return Competition.aggregate([
-    { $match: { league: league._id }},
+    { $match: { 'league.id': league._id }},
     { $unwind: '$stats' },
     { $unwind: '$stats.tags' },
     { $group: { _id: { competitor: '$stats.competitor',
@@ -140,7 +140,7 @@ function indexTags(tags, league) {
 
 function getVersus(league) {
   return Competition.aggregate([
-    { $match: { league: league._id }},
+    { $match: { 'league.id': league._id }},
     { $unwind: '$stats' },
     { $unwind: '$stats.versus' },
     { $group: { _id: { competitor: '$stats.competitor',

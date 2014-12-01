@@ -4,7 +4,12 @@
       <h1>{{ league.name }}</h1>
     </div>
   </div>
-  <div class="row">
+  <div class="row" ng-show="!league.stats.length">
+    <div class="col-xs-12">
+      <p>No statistics yet... please check back later.</p>
+    </div>
+  </div>
+  <div class="row" ng-show="league.stats.length">
     <div class="col-xs-12">
       <tabset>
         <tab heading="Standings">
@@ -67,7 +72,7 @@
   </div>
   <div class="row" ng-show="canManage">
     <div class="col-xs-12">
-      <a class="btn btn-lg btn-primary" href="/{{ league.path }}/newCompetition">New competition...</a>
+      <a class="btn btn-lg btn-primary" href="" ng-click="newCompetition()">New competition...</a>
     </div>
   </div>
 </div>

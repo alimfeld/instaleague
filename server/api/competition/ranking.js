@@ -9,12 +9,12 @@ var areNumbers = function(a, b) {
 }
 
 var aggregate = function(results, competitors, competitor, direct, callback) {
-  results[competitor].forEach(function(plus, opponent) {
+  ((results || [])[competitor] || []).forEach(function(plus, opponent) {
     if (competitor === opponent) {
       return;
     }
     if (!direct || (competitors.indexOf(opponent) >= 0)) {
-      var minus = results[opponent][competitor];
+      var minus = (results[opponent] || [])[competitor];
       if (areNumbers(plus, minus)) {
         callback(plus, minus);
       }
@@ -125,8 +125,8 @@ var stats = function(results, competitors) {
     };
     competitors.forEach(function(opponent) {
       if (competitor !== opponent) {
-        var plus = results[competitor][opponent];
-        var minus = results[opponent][competitor];
+        var plus = (results[competitor] || [])[opponent];
+        var minus = (results[opponent] || [])[competitor];
         if (areNumbers(plus, minus)) {
           var entry = result[competitor];
           var versus = {

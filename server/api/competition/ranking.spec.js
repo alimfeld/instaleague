@@ -246,4 +246,21 @@ describe('ranking', function() {
         } ]);
   });
 
+  it('should handle undefined results', function () {
+    var wins = ranking.breakTies(undefined,
+      [0, 1, 2],
+      [{ fn: 'wins' }]);
+    wins.should.eql({
+      fn: 'wins',
+      direct: false,
+      scores: {
+        '0': {
+          competitors: [0, 1, 2],
+          rank: 1,
+          tieBreak: undefined
+        }
+      }
+    });
+  });
+
 });

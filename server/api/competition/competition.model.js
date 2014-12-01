@@ -6,7 +6,11 @@ var mongoose = require('mongoose'),
 
 var CompetitionSchema = new Schema({
   date: Date,
-  league: Schema.ObjectId,
+  league: {
+    id: Schema.ObjectId,
+    name: String,
+    owner: String
+  },
   competitors: [Number],
   tags: [],
   results: [],
@@ -33,7 +37,9 @@ var CompetitionSchema = new Schema({
       plus: Number,
       minus: Number
     }]
-  }]
+  }],
+  owner: { type: String, required: 'true' },
+  confirmed: {type: Boolean, default: false }
 });
 
 CompetitionSchema.pre('save', function(next) {
@@ -43,6 +49,20 @@ CompetitionSchema.pre('save', function(next) {
     stat.tags = competition.tags[stat.competitor];
   });
   next();
+});
+
+CompetitionSchema.pre('save', function(next) {
+  var competition = this;
+  if (!competition.league.name || !competition.league.owner) {
+    var League = require('../league/league.model');
+    League.findById(competition.league.id, function (err, league) {
+      competition.league.name = league.name;
+      competition.league.owner = league.owner;
+      next();
+    });
+  } else {
+    next();
+  }
 });
 
 module.exports = mongoose.model('Competition', CompetitionSchema);

@@ -11,6 +11,9 @@ angular.module('instaleagueApp')
         resolve: {
           leagues: function($http) {
             return $http.get('/api/leagues');
+          },
+          competitions: function($http) {
+            return $http.get('/api/competitions');
           }
         }
       });

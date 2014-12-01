@@ -4,8 +4,13 @@ angular.module('instaleagueApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('showLeague', {
-        url: '/{league}',
+        url: '/leagues/{league}',
         templateUrl: 'app/showLeague/showLeague.html',
-        controller: 'ShowLeagueCtrl'
+        controller: 'ShowLeagueCtrl',
+        resolve: {
+          league: function($http, $stateParams) {
+            return $http.get('/api/leagues/' + $stateParams.league);
+          }
+        }
       });
   });
