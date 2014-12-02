@@ -6,7 +6,7 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <tabset>
+      <tabset type="pills">
         <tab heading="General">
           <br>
           <form role="form">
@@ -18,7 +18,7 @@
           </form>
         </tab>
         <tab heading="Participation">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th></th>
@@ -38,7 +38,7 @@
           </table>
         </tab>
         <tab heading="Tags">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th></th>
@@ -58,7 +58,7 @@
           </table>
         </tab>
         <tab heading="Games">
-          <table class="table">
+          <table class="table table-striped games">
             <thead>
               <tr>
                 <th></th>
@@ -72,14 +72,14 @@
                   <button class="btn btn-default" ng-click="editResult(competitor, opponent)" ng-show="competitor !== opponent">
                     {{ competition.results[competitor][opponent] }} : {{ competition.results[opponent][competitor] }}
                   </button>
-                  <span ng-show="competitor === opponent" class="glyphicon glyphicon-remove"></span>
+                  <span ng-show="competitor === opponent">-</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </tab>
         <tab heading="Standings">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
             <tr>
               <th></th>

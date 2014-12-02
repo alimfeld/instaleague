@@ -1,0 +1,8 @@
+table.games {
+  table-layout: fixed;
+}
+
+table.games td, table.games th {
+  text-align: center;
+  vertical-align: middle !important;
+}

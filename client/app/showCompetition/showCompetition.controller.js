@@ -20,6 +20,9 @@ angular.module('instaleagueApp')
       if (stopWatching) {
         stopWatching();
       }
+      competition.stats.sort(function(a, b) {
+        return a.rank - b.rank;
+      });
       $scope.competition = competition;
       // convert date from String to Date object
       $scope.competition.date = new Date(competition.date);
