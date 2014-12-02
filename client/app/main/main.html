@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <tabset>
+      <tabset type="pills">
         <tab heading="My leagues">
           <br>
           <div class="list-group">
@@ -10,10 +10,10 @@
               <p><span ng-repeat="competitor in league.competitors">{{ competitor }}{{ $last ? '' : ', '}}</span></p>
             </a>
           </div>
-          <a class="btn btn-lg btn-primary" href="/newLeague">New league...</a>
+          <a class="btn btn-default" href="/newLeague"><span class="glyphicon glyphicon-plus"></span> New league...</a>
         </tab>
         <tab ng-show="competitions.length">
-          <tab-heading>My ongoing competitions <span class="badge">{{ competitions.length }}</span></tab-heading>
+          <tab-heading>My competitions <span class="badge">{{ competitions.length }}</span></tab-heading>
           <br>
           <div class="list-group">
             <a ng-repeat="competition in competitions" href="/leagues/{{ competition.league.id }}/competitions/{{ competition._id }}" class="list-group-item">

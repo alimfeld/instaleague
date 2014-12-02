@@ -11,9 +11,9 @@
   </div>
   <div class="row" ng-show="league.stats.length">
     <div class="col-xs-12">
-      <tabset>
+      <tabset type="pills">
         <tab heading="Standings">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
             <tr>
               <th>Competitor</th>
@@ -33,7 +33,7 @@
           </table>
         </tab>
         <tab heading="Tags">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
             <tr>
               <th>Competitor</th>
@@ -49,7 +49,7 @@
           </table>
         </tab>
         <tab heading="Versus">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
             <tr>
               <th>Competitor</th>
@@ -61,7 +61,7 @@
               <th>{{ league.competitors[stat.competitor] }}</th>
               <td ng-repeat="other in league.stats">
                 <span ng-show="stat.competitor !== other.competitor">{{ (stat.indexedVersus[other.competitor].wins + stat.indexedVersus[other.competitor].draws / 2) / stat.indexedVersus[other.competitor].games | number : 2 }}</span>
-                <span ng-show="stat.competitor === other.competitor" class="glyphicon glyphicon-remove"></span>
+                <span ng-show="stat.competitor === other.competitor">-</span>
               </td>
             </tr>
             </tbody>
@@ -72,7 +72,7 @@
   </div>
   <div class="row" ng-show="canManage">
     <div class="col-xs-12">
-      <a class="btn btn-lg btn-primary" href="" ng-click="newCompetition()">New competition...</a>
+      <a class="btn btn-default" href="" ng-click="newCompetition()"><span class="glyphicon glyphicon-plus"></span> New competition...</a>
     </div>
   </div>
 </div>

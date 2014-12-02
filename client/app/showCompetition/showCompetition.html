@@ -116,8 +116,14 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <button class="btn btn-lg btn-primary" ng-click="save()" ng-disabled="!dirty">Save</button>
-      <button class="btn btn-lg btn-danger" ng-click="confirm()" ng-disabled="dirty" ng-show="!competition.confirmed && competition.league.owner === me._id">Confirm</button>
+      <button class="btn btn-default" ng-click="save()" ng-disabled="!dirty">
+        <span class="glyphicon" ng-class="{ 'glyphicon-floppy-disk': dirty, 'glyphicon-floppy-saved': !dirty }"></span>
+        Save{{!dirty? 'd' : ' now'}}
+      </button>
+      <button class="btn btn-danger" ng-click="confirm()" ng-disabled="dirty" ng-show="!competition.confirmed && competition.league.owner === me._id">
+        <span class="glyphicon glyphicon-check"></span>
+        Confirm
+      </button>
     </div>
   </div>
 </div>
