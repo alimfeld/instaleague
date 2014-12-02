@@ -1,7 +1,7 @@
 <div class="container" ng-show="league">
   <div class="row">
     <div class="col-xs-12">
-      <h1>{{ league.name }}</h1>
+      <h1 class="page-header">{{ league.name }}</h1>
     </div>
   </div>
   <div class="row" ng-show="!league.stats.length">
@@ -16,7 +16,7 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th>Competitor</th>
+              <th></th>
               <th>Points</th>
               <th>C (G) <span class="glyphicon glyphicon-info-sign" tooltip="Competitions played (games played)"></span></th>
               <th>W/L/D <span class="glyphicon glyphicon-info-sign" tooltip="Total wins / losses / draws"></span></th>
@@ -36,7 +36,7 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th>Competitor</th>
+              <th></th>
               <th ng-repeat="tag in league.tags">{{ tag }}</th>
             </tr>
             </thead>
@@ -49,10 +49,10 @@
           </table>
         </tab>
         <tab heading="Versus">
-          <table class="table table-striped">
+          <table class="table table-striped versus">
             <thead>
             <tr>
-              <th>Competitor</th>
+              <th></th>
               <th ng-repeat="stat in league.stats">{{ league.competitors[stat.competitor] }}</th>
             </tr>
             </thead>

@@ -1,7 +1,7 @@
 <div class="container" ng-show="league">
   <div class="row">
     <div class="col-xs-12">
-      <h1>{{ league.name }} competition</h1>
+      <h1 class="page-header">{{ league.name }} competition</h1>
     </div>
   </div>
   <div class="row">
@@ -11,8 +11,11 @@
           <br>
           <form role="form">
             <div class="form-group">
-              <label for="date">Date / Time</label>
+              <label for="date">Date</label>
               <input class="form-control" id="date" type="date" ng-model="competition.date">
+            </div>
+            <div class="form-group">
+              <label>Time</label>
               <timepicker ng-model="competition.date" show-meridian="false"></timepicker>
             </div>
           </form>
@@ -22,7 +25,7 @@
             <thead>
               <tr>
                 <th></th>
-                <th>participates in competition?</th>
+                <th>participates?</th>
               </tr>
             </thead>
             <tbody>
@@ -58,7 +61,7 @@
           </table>
         </tab>
         <tab heading="Games">
-          <table class="table table-striped games">
+          <table class="table table-striped versus">
             <thead>
               <tr>
                 <th></th>
@@ -83,10 +86,8 @@
             <thead>
             <tr>
               <th></th>
-              <th># Games</th>
-              <th># Wins</th>
-              <th># Losses</th>
-              <th># Draws</th>
+              <th>G</th>
+              <th>W/L/D</th>
               <th>+/-</th>
               <th>
                 CP
@@ -102,10 +103,8 @@
                 {{ league.competitors[stat.competitor] }}
               </th>
               <td>{{ stat.games }}</td>
-              <td>{{ stat.wins }}</td>
-              <td>{{ stat.losses }}</td>
-              <td>{{ stat.draws }}</td>
-              <td>{{ stat.plus }} : {{ stat.minus }} </td>
+              <td>{{ stat.wins }}/{{ stat.losses }}/{{ stat.draws }}</td>
+              <td>{{ stat.plus }}:{{ stat.minus }} </td>
               <td>{{ stat.points | number : 2 }}</td>
             </tr>
             </tbody>

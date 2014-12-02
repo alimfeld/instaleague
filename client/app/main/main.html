@@ -1,6 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
+      <h1 class="page-header">Overview</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
       <tabset type="pills">
         <tab heading="My leagues">
           <br>
@@ -21,8 +26,8 @@
               <p>{{ competition.date | date:'yyyy-MM-dd HH:mm' }}</p>
               <p>
                 <span class="label label-default">{{ competition.competitors.length }} competitors</span>
-                <span class="label label-info" ng-show="me === competition.owner">Created by me</span>
-                <span class="label label-danger" ng-show="me === competition.league.owner">Needs confirmation by me</span>
+                <span class="label label-info" ng-show="me === competition.owner">created by me</span>
+                <span class="label label-danger" ng-show="me === competition.league.owner">needs my confirmation</span>
               </p>
             </a>
           </div>

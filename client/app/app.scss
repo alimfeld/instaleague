@@ -19,6 +19,24 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
   display: none !important;
 }
 
+table.versus {
+  table-layout: fixed;
+}
+
+table td, table th {
+  text-align: center;
+  vertical-align: middle !important;
+}
+
+table tr th:first-child {
+  text-align: left;
+}
+
+li.active .badge {
+  background: white;
+  color: #428bca;
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
