@@ -95,7 +95,7 @@ function updateStats(league) {
 
 function getStats(league) {
   return Competition.aggregate([
-    { $match: { 'league.id': league._id }},
+    { $match: { 'league.id': league._id, confirmed: true }},
     { $unwind: '$stats' },
     { $group: { _id: '$stats.competitor',
                 competitions: { $sum: 1 },
