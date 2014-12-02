@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('instaleagueApp')
-  .controller('ShowCompetitionCtrl', function ($scope, $location, $http, $modal, $timeout, Auth, league, competition) {
+  .controller('ShowCompetitionCtrl', function ($scope, $location, $http, $modal, $timeout, _, Auth, league, competition) {
 
     var timeout = null;
     var stopWatching = null;
@@ -27,7 +27,7 @@ angular.module('instaleagueApp')
     };
 
     var ensureNestedArray = function(array, index) {
-      if (array[index] === undefined) {
+      if (!_.isArray(array[index])) {
         array[index] = [];
       }
     };
