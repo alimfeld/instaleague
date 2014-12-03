@@ -664,4 +664,9 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'buildcontrol:openshift'
+  ]);
 };
