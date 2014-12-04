@@ -86,8 +86,7 @@
                           ng-show="competitor !== opponent"
                           ng-class="{
                            'btn-success': diff(competitor, opponent) > 0,
-                           'btn-warning': diff(competitor, opponent) < 0,
-                           'btn-info': diff(competitor, opponent) === 0
+                           'btn-warning': diff(competitor, opponent) < 0
                           }">
                     <span ng-show="hasResult(competitor, opponent)">{{ result(competitor, opponent) }} : {{ result(opponent, competitor) }}</span>
                     <span ng-show="!hasResult(competitor, opponent)">?</span>
