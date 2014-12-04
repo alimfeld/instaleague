@@ -35,6 +35,29 @@ angular.module('instaleagueApp')
       }
     };
 
+    $scope.result = function(competitor, opponent, result) {
+      if (_.isNumber(result)) {
+        // set
+        ensureNestedArray($scope.competition.results, competitor);
+        $scope.competition.results[competitor][opponent] = result;
+      } else {
+        // get
+        if ($scope.competition.results[competitor]) {
+          return $scope.competition.results[competitor][opponent];
+        } else {
+          return undefined;
+        }
+      }
+    };
+
+    $scope.diff = function(competitor, opponent) {
+      return $scope.result(competitor, opponent) - $scope.result(opponent, competitor);
+    };
+
+    $scope.hasResult = function(competitor, opponent) {
+      return _.isNumber($scope.result(competitor, opponent)) && _.isNumber($scope.result(opponent, competitor));
+    };
+
     $scope.league = league.data;
     setCompetition(competition.data);
 
@@ -75,8 +98,6 @@ angular.module('instaleagueApp')
     };
 
     $scope.editResult = function(competitor, opponent) {
-      ensureNestedArray($scope.competition.results, competitor);
-      ensureNestedArray($scope.competition.results, opponent);
       var modalInstance = $modal.open({
         templateUrl: 'app/showCompetition/editResult.html',
         controller: 'EditResultCtrl',
@@ -88,16 +109,16 @@ angular.module('instaleagueApp')
               opponent: opponent,
               competitorName: $scope.league.competitors[competitor],
               opponentName: $scope.league.competitors[opponent],
-              plus: $scope.competition.results[competitor][opponent],
-              minus: $scope.competition.results[opponent][competitor]
+              plus: $scope.result(competitor, opponent),
+              minus: $scope.result(opponent, competitor)
             };
           }
         }
       });
 
       modalInstance.result.then(function(entry) {
-        $scope.competition.results[entry.competitor][entry.opponent] = entry.plus;
-        $scope.competition.results[entry.opponent][entry.competitor] = entry.minus;
+        $scope.result(entry.competitor, entry.opponent, entry.plus);
+        $scope.result(entry.opponent, entry.competitor, entry.minus);
       });
     };
 

@@ -1,26 +1,33 @@
 <div class="container" ng-show="league">
   <div class="row">
     <div class="col-xs-12">
-      <h1 class="page-header">{{ league.name }} competition</h1>
+      <h1>{{ league.name }} competition</h1>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <tabset type="pills">
-        <tab heading="General">
-          <br>
-          <form role="form">
+        <tab>
+          <tab-heading><span class="glyphicon glyphicon-calendar"></span></tab-heading>
+          <hr>
+          <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label for="date">Date</label>
-              <input class="form-control" id="date" type="date" ng-model="competition.date">
+              <label for="date" class="col-xs-2 control-label">Date</label>
+              <div class="col-xs-4">
+                <input class="form-control" id="date" type="date" ng-model="competition.date">
+              </div>
             </div>
             <div class="form-group">
-              <label>Time</label>
-              <timepicker ng-model="competition.date" show-meridian="false"></timepicker>
+              <label class="col-xs-2 control-label" style="padding-top: 40px">Time</label>
+              <div class="col-xs-4">
+                <timepicker ng-model="competition.date" show-meridian="false"></timepicker>
+              </div>
             </div>
           </form>
+          <hr>
         </tab>
-        <tab heading="Participation">
+        <tab>
+          <tab-heading><span class="glyphicon glyphicon-user"></span></tab-heading>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -40,7 +47,8 @@
             </tbody>
           </table>
         </tab>
-        <tab heading="Tags">
+        <tab>
+          <tab-heading><span class="glyphicon glyphicon-tags"></span></tab-heading>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -60,7 +68,8 @@
             </tbody>
           </table>
         </tab>
-        <tab heading="Games">
+        <tab>
+          <tab-heading><span class="glyphicon glyphicon-th"></span></tab-heading>
           <table class="table table-striped versus">
             <thead>
               <tr>
@@ -72,8 +81,16 @@
               <tr ng-repeat="competitor in competition.competitors">
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competition.competitors">
-                  <button class="btn btn-default" ng-click="editResult(competitor, opponent)" ng-show="competitor !== opponent">
-                    {{ competition.results[competitor][opponent] }} : {{ competition.results[opponent][competitor] }}
+                  <button class="btn btn-default"
+                          ng-click="editResult(competitor, opponent)"
+                          ng-show="competitor !== opponent"
+                          ng-class="{
+                           'btn-success': diff(competitor, opponent) > 0,
+                           'btn-warning': diff(competitor, opponent) < 0,
+                           'btn-info': diff(competitor, opponent) === 0
+                          }">
+                    <span ng-show="hasResult(competitor, opponent)">{{ result(competitor, opponent) }} : {{ result(opponent, competitor) }}</span>
+                    <span ng-show="!hasResult(competitor, opponent)">Enter</span>
                   </button>
                   <span ng-show="competitor === opponent">-</span>
                 </td>
@@ -81,13 +98,14 @@
             </tbody>
           </table>
         </tab>
-        <tab heading="Standings">
+        <tab>
+          <tab-heading><span class="glyphicon glyphicon-stats"></span></tab-heading>
           <table class="table table-striped">
             <thead>
             <tr>
               <th></th>
-              <th>G</th>
-              <th>W/L/D</th>
+              <th>G <span class="glyphicon glyphicon-info-sign" tooltip="Games played"></span></th>
+              <th>W/D/L <span class="glyphicon glyphicon-info-sign" tooltip="Wins / Draws / Losses"></span></th>
               <th>+/-</th>
               <th>
                 CP
@@ -103,7 +121,7 @@
                 {{ league.competitors[stat.competitor] }}
               </th>
               <td>{{ stat.games }}</td>
-              <td>{{ stat.wins }}/{{ stat.losses }}/{{ stat.draws }}</td>
+              <td>{{ stat.wins }}/{{ stat.draws }}/{{ stat.losses }}</td>
               <td>{{ stat.plus }}:{{ stat.minus }} </td>
               <td>{{ stat.points | number : 2 }}</td>
             </tr>
