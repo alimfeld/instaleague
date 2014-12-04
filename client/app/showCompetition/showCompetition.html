@@ -81,7 +81,7 @@
               <tr ng-repeat="competitor in competition.competitors">
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competition.competitors">
-                  <button class="btn btn-default"
+                  <button class="btn btn-xs btn-default"
                           ng-click="editResult(competitor, opponent)"
                           ng-show="competitor !== opponent"
                           ng-class="{
@@ -90,7 +90,7 @@
                            'btn-info': diff(competitor, opponent) === 0
                           }">
                     <span ng-show="hasResult(competitor, opponent)">{{ result(competitor, opponent) }} : {{ result(opponent, competitor) }}</span>
-                    <span ng-show="!hasResult(competitor, opponent)">Enter</span>
+                    <span ng-show="!hasResult(competitor, opponent)">?</span>
                   </button>
                   <span ng-show="competitor === opponent">-</span>
                 </td>
