@@ -2,6 +2,7 @@
 
 angular.module('instaleagueApp', [
   'ngCookies',
+  'ngStorage',
   'ngResource',
   'ngSanitize',
   'btford.socket-io',
@@ -18,13 +19,14 @@ angular.module('instaleagueApp', [
 
   .constant('_', window._)
 
-  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+  .factory('authInterceptor', function ($rootScope, $q, $location, tokenStore) {
     return {
       // Add authorization token to headers
       request: function (config) {
         config.headers = config.headers || {};
-        if ($cookieStore.get('token')) {
-          config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+        var token = tokenStore.get();
+        if (token) {
+          config.headers.Authorization = 'Bearer ' + token;
         }
         return config;
       },
@@ -34,7 +36,7 @@ angular.module('instaleagueApp', [
         if(response.status === 401) {
           $location.path('/login');
           // remove any stale tokens
-          $cookieStore.remove('token');
+          tokenStore.remove();
           return $q.reject(response);
         }
         else {

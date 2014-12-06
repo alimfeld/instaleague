@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('instaleagueApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $q, tokenStore) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
+    if(tokenStore.get()) {
       currentUser = User.get();
     }
 
@@ -25,7 +25,7 @@ angular.module('instaleagueApp')
           password: user.password
         }).
         success(function(data) {
-          $cookieStore.put('token', data.token);
+          tokenStore.put(data.token);
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
@@ -45,7 +45,7 @@ angular.module('instaleagueApp')
        * @param  {Function}
        */
       logout: function() {
-        $cookieStore.remove('token');
+        tokenStore.remove();
         currentUser = {};
       },
 
@@ -61,7 +61,7 @@ angular.module('instaleagueApp')
 
         return User.save(user,
           function(data) {
-            $cookieStore.put('token', data.token);
+            tokenStore.put(data.token);
             currentUser = User.get();
             return cb(user);
           },
@@ -140,7 +140,7 @@ angular.module('instaleagueApp')
        * Get auth token
        */
       getToken: function() {
-        return $cookieStore.get('token');
+        return tokenStore.get();
       }
     };
   });
