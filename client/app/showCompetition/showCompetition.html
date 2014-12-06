@@ -6,28 +6,28 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <tabset type="pills">
+      <tabset>
         <tab>
-          <tab-heading><span class="glyphicon glyphicon-calendar"></span></tab-heading>
-          <hr>
+          <tab-heading><i class="fa fa-lg fa-calendar"></i></tab-heading>
+          <br>
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label for="date" class="col-xs-2 control-label">Date</label>
-              <div class="col-xs-4">
-                <input class="form-control" id="date" type="date" ng-model="competition.date">
+              <label for="date" class="col-xs-4 col-sm-4 control-label">Date</label>
+              <div class="col-xs-8 col-sm-4">
+                <input type="date" class="form-control" id="date" ng-model="competition.date"/>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-xs-2 control-label" style="padding-top: 40px">Time</label>
-              <div class="col-xs-4">
-                <timepicker ng-model="competition.date" show-meridian="false"></timepicker>
+              <label for="time" class="col-xs-4 col-sm-4 control-label">Time</label>
+              <div class="col-xs-8 col-sm-4">
+                <input type="time" class="form-control" id="time" ng-model="competition.date"/>
               </div>
             </div>
           </form>
           <hr>
         </tab>
         <tab>
-          <tab-heading><span class="glyphicon glyphicon-user"></span></tab-heading>
+          <tab-heading><i class="fa fa-lg fa-users"></i></tab-heading>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -48,7 +48,7 @@
           </table>
         </tab>
         <tab>
-          <tab-heading><span class="glyphicon glyphicon-tags"></span></tab-heading>
+          <tab-heading><i class="fa fa-lg fa-tags"></i></tab-heading>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -69,7 +69,7 @@
           </table>
         </tab>
         <tab>
-          <tab-heading><span class="glyphicon glyphicon-th"></span></tab-heading>
+          <tab-heading><i class="fa fa-lg fa-table"></i></tab-heading>
           <table class="table table-striped versus">
             <thead>
               <tr>
@@ -81,16 +81,7 @@
               <tr ng-repeat="competitor in competition.competitors">
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competition.competitors">
-                  <button class="btn btn-xs btn-default"
-                          ng-click="editResult(competitor, opponent)"
-                          ng-show="competitor !== opponent"
-                          ng-class="{
-                           'btn-success': diff(competitor, opponent) > 0,
-                           'btn-warning': diff(competitor, opponent) < 0
-                          }">
-                    <span ng-show="hasResult(competitor, opponent)">{{ result(competitor, opponent) }} : {{ result(opponent, competitor) }}</span>
-                    <span ng-show="!hasResult(competitor, opponent)">?</span>
-                  </button>
+                  <result league="league" competition="competition" competitor="competitor" opponent="opponent"></result>
                   <span ng-show="competitor === opponent">-</span>
                 </td>
               </tr>
@@ -98,17 +89,16 @@
           </table>
         </tab>
         <tab>
-          <tab-heading><span class="glyphicon glyphicon-stats"></span></tab-heading>
+          <tab-heading><i class="fa fa-lg fa-sort-numeric-asc"></i></tab-heading>
           <table class="table table-striped">
             <thead>
             <tr>
               <th></th>
-              <th>G <span class="glyphicon glyphicon-info-sign" tooltip="Games played"></span></th>
-              <th>W/D/L <span class="glyphicon glyphicon-info-sign" tooltip="Wins / Draws / Losses"></span></th>
+              <th>G <hint text="Games played"></hint></th>
+              <th>W/D/L <hint text="Wins / Draws / Losses"></hint></th>
               <th>+/-</th>
               <th>
-                CP
-                <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="Competition points: Linearly distributed between one and zero based on rank."></span>
+                CP <hint text="Competition points: Linearly distributed between one and zero based on rank."></hint>
               </th>
             </tr>
             </thead>
@@ -116,7 +106,7 @@
             <tr ng-repeat="stat in competition.stats">
               <th>
                 {{ stat.rank }}.
-                <span class="glyphicon glyphicon-info-sign ng-scope" tooltip="{{ stat.hint }}"></span>
+                <hint text="{{ stat.hint }}"></hint>
                 {{ league.competitors[stat.competitor] }}
               </th>
               <td>{{ stat.games }}</td>
@@ -132,12 +122,11 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <button class="btn btn-default" ng-click="save()" ng-disabled="!dirty">
-        <span class="glyphicon" ng-class="{ 'glyphicon-floppy-disk': dirty, 'glyphicon-floppy-saved': !dirty }"></span>
-        Save{{!dirty? 'd' : ' now'}}
+      <button class="btn" ng-class="{ 'btn-info': dirty, 'btn-default': !dirty }" ng-click="save()" ng-disabled="!dirty">
+        <i class="fa fa-save"></i> Save{{!dirty? 'd' : ' now'}}
       </button>
       <button class="btn btn-danger" ng-click="confirm()" ng-disabled="dirty" ng-show="!competition.confirmed && competition.league.owner === me._id">
-        <span class="glyphicon glyphicon-check"></span>
+        <i class="fa fa-check-square-o"></i>
         Confirm
       </button>
     </div>

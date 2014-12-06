@@ -35,29 +35,6 @@ angular.module('instaleagueApp')
       }
     };
 
-    $scope.result = function(competitor, opponent, result) {
-      if (_.isNumber(result)) {
-        // set
-        ensureNestedArray($scope.competition.results, competitor);
-        $scope.competition.results[competitor][opponent] = result;
-      } else {
-        // get
-        if ($scope.competition.results[competitor]) {
-          return $scope.competition.results[competitor][opponent];
-        } else {
-          return undefined;
-        }
-      }
-    };
-
-    $scope.diff = function(competitor, opponent) {
-      return $scope.result(competitor, opponent) - $scope.result(opponent, competitor);
-    };
-
-    $scope.hasResult = function(competitor, opponent) {
-      return _.isNumber($scope.result(competitor, opponent)) && _.isNumber($scope.result(opponent, competitor));
-    };
-
     $scope.league = league.data;
     setCompetition(competition.data);
 
@@ -95,31 +72,6 @@ angular.module('instaleagueApp')
       } else {
         tags[competitor].push(tag);
       }
-    };
-
-    $scope.editResult = function(competitor, opponent) {
-      var modalInstance = $modal.open({
-        templateUrl: 'app/showCompetition/editResult.html',
-        controller: 'EditResultCtrl',
-        size: 'lg',
-        resolve: {
-          entry: function() {
-            return {
-              competitor: competitor,
-              opponent: opponent,
-              competitorName: $scope.league.competitors[competitor],
-              opponentName: $scope.league.competitors[opponent],
-              plus: $scope.result(competitor, opponent),
-              minus: $scope.result(opponent, competitor)
-            };
-          }
-        }
-      });
-
-      modalInstance.result.then(function(entry) {
-        $scope.result(entry.competitor, entry.opponent, entry.plus);
-        $scope.result(entry.opponent, entry.competitor, entry.minus);
-      });
     };
 
     $scope.me = Auth.getCurrentUser();

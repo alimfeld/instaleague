@@ -1,0 +1,10 @@
+<button class="btn btn-sm btn-default"
+        ng-click="editResult()"
+        ng-show="competitor !== opponent"
+        ng-class="{
+                   'btn-success': plus > minus,
+                   'btn-warning': plus < minus
+                  }">
+  <span ng-show="hasResult">{{ plus }} : {{ minus }}</span>
+  <span ng-show="!hasResult">?</span>
+</button>

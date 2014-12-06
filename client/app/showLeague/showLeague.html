@@ -11,15 +11,16 @@
   </div>
   <div class="row" ng-show="league.stats.length">
     <div class="col-xs-12">
-      <tabset type="pills">
-        <tab heading="Standings">
+      <tabset>
+        <tab>
+          <tab-heading><i class="fa fa-lg fa-sort-numeric-asc"></i></tab-heading>
           <table class="table table-striped">
             <thead>
             <tr>
               <th></th>
               <th>Points</th>
-              <th>C (G) <span class="glyphicon glyphicon-info-sign" tooltip="Competitions played (Games played)"></span></th>
-              <th>W/D/L <span class="glyphicon glyphicon-info-sign" tooltip="Total Wins / Draws / Losses"></span></th>
+              <th>C (G) <hint text="Competitions played (Games played)"></hint></th>
+              <th>W/D/L <hint text="Total Wins / Draws / Losses"></hint></th>
             </tr>
             </thead>
             <tbody>
@@ -32,7 +33,8 @@
             </tbody>
           </table>
         </tab>
-        <tab heading="Tags">
+        <tab>
+          <tab-heading><i class="fa fa-lg fa-tags"></i></tab-heading>
           <table class="table table-striped">
             <thead>
             <tr>
@@ -48,7 +50,8 @@
             </tbody>
           </table>
         </tab>
-        <tab heading="Versus">
+        <tab>
+          <tab-heading><i class="fa fa-lg fa-crosshairs"></i></tab-heading>
           <table class="table table-striped versus">
             <thead>
             <tr>
@@ -72,7 +75,7 @@
   </div>
   <div class="row" ng-show="canManage">
     <div class="col-xs-12">
-      <a class="btn btn-default" href="" ng-click="newCompetition()"><span class="glyphicon glyphicon-plus"></span> New competition...</a>
+      <a class="btn btn-default" href="" ng-click="newCompetition()"><i class="fa fa-plus-circle"></i> New competition...</a>
     </div>
   </div>
 </div>
