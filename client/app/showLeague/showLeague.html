@@ -63,8 +63,8 @@
             <tr ng-repeat="stat in league.stats">
               <th>{{ league.competitors[stat.competitor] }}</th>
               <td ng-repeat="other in league.stats">
-                <span ng-show="stat.competitor !== other.competitor">{{ (stat.indexedVersus[other.competitor].wins + stat.indexedVersus[other.competitor].draws / 2) / stat.indexedVersus[other.competitor].games | number : 2 }}</span>
-                <span ng-show="stat.competitor === other.competitor">-</span>
+                <span ng-if="stat.competitor !== other.competitor"><versus result="stat.indexedVersus[other.competitor]"></versus></span>
+                <span ng-if="stat.competitor === other.competitor">-</span>
               </td>
             </tr>
             </tbody>

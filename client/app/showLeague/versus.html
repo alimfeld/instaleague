@@ -1,0 +1,7 @@
+<span class="label"
+      ng-if="percentage !== undefined"
+      ng-class="{ 'label-warning': percentage < 0.5, 'label-success': percentage > 0.5, 'label-info': percentage === 0.5 }"
+      tooltip="{{result.wins}}/{{result.draws}}/{{result.losses}}">
+  {{ percentage * 100 | number : 0 }}%
+</span>
+<span class="label label-default" ng-if="percentage === undefined">n/a</span>
