@@ -7,8 +7,10 @@ angular.module('instaleagueApp').directive('tagstat', function () {
       tag: '='
     },
     link: function(scope) {
-      if (scope.stat.tags[scope.tag] && scope.stat.competitions) {
-        scope.percentage = scope.stat.tags[scope.tag] / scope.stat.competitions * 100;
+      scope.count = scope.stat.tags[scope.tag] || 0;
+      scope.competitions = scope.stat.competitions || 0;
+      if (scope.competitions) {
+        scope.percentage = scope.count / scope.competitions * 100;
       } else {
         scope.percentage = 0;
       }
