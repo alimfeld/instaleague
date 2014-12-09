@@ -5,6 +5,6 @@ angular.module('instaleagueApp').directive('hint', function () {
     scope: {
       text: '@'
     },
-    template: '<i class="fa fa-info-circle" tooltip="{{ text }}"></i>'
+    template: ' <i class="fa fa-info-circle" tooltip="{{ text }}"></i> '
   };
 });
