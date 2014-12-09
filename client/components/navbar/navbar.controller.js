@@ -11,6 +11,11 @@ angular.module('instaleagueApp')
       $location.path('/login');
     };
 
+    $scope.isLocalUser = function() {
+      var user = Auth.getCurrentUser();
+      return user && user.provider === 'local';
+    };
+
     $scope.isActive = function(route) {
       return route === $location.path();
     };
