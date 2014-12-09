@@ -35,7 +35,7 @@
         </tab>
         <tab>
           <tab-heading><i class="fa fa-lg fa-tags"></i></tab-heading>
-          <table class="table table-striped">
+          <table class="table table-striped versus">
             <thead>
             <tr>
               <th></th>
@@ -45,7 +45,7 @@
             <tbody>
             <tr ng-repeat="stat in league.stats">
               <th>{{ league.competitors[stat.competitor] }}</th>
-              <td ng-repeat="tag in league.tags">{{ stat.tags[$index] || 0 }}</td>
+              <td ng-repeat="tag in league.tags"><tagstat stat="stat" tag="$index"></tagstat></td>
             </tr>
             </tbody>
           </table>
