@@ -7,7 +7,11 @@ angular.module('instaleagueApp').directive('tagstat', function () {
       tag: '='
     },
     link: function(scope) {
-      scope.percentage = scope.stat.tags[scope.tag] / scope.stat.competitions * 100;
+      if (scope.stat.tags[scope.tag] && scope.stat.competitions) {
+        scope.percentage = scope.stat.tags[scope.tag] / scope.stat.competitions * 100;
+      } else {
+        scope.percentage = 0;
+      }
     },
     templateUrl: 'app/showLeague/tagstat.html'
   };
