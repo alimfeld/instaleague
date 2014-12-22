@@ -6,14 +6,10 @@ var mongoose = require('mongoose'),
 
 var CompetitionSchema = new Schema({
   date: Date,
-  league: {
-    id: Schema.ObjectId,
-    name: String,
-    owner: String
-  },
   competitors: [Number],
   tags: [],
   results: [],
+  // derived
   stats: [{
     competitor: Number,
     tags: [Number],
@@ -38,7 +34,14 @@ var CompetitionSchema = new Schema({
       minus: Number
     }]
   }],
+  // set on creation
+  league: {
+    id: Schema.ObjectId,
+    name: String,
+    owner: String
+  },
   owner: { type: String, required: 'true' },
+  // actions
   confirmed: {type: Boolean, default: false }
 });
 

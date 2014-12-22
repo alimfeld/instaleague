@@ -9,6 +9,7 @@ var LeagueSchema = new Schema({
   name: { type: String, required: 'true' },
   competitors: [String],
   tags: [String],
+  // derived
   stats: [{
     competitor: Number,
     competitions: Number,
@@ -30,8 +31,10 @@ var LeagueSchema = new Schema({
       minus: Number
     }]
   }],
+  // set on creation
   owner: { type: String, required: 'true' },
   created: Date,
+  // set on update
   updated: Date
 });
 
