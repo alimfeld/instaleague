@@ -4,7 +4,8 @@
         ng-class="{
                    'btn-success': plus > minus,
                    'btn-warning': plus < minus
-                  }">
+                  }"
+        ng-disabled="readonly">
   <span ng-show="hasResult">{{ plus }} : {{ minus }}</span>
   <span ng-show="!hasResult">?</span>
 </button>

@@ -14,13 +14,13 @@
             <div class="form-group">
               <label for="date" class="col-xs-4 col-sm-4 control-label">Date</label>
               <div class="col-xs-8 col-sm-4">
-                <input type="date" class="form-control" id="date" ng-model="competition.date"/>
+                <input type="date" class="form-control" id="date" ng-model="competition.date" ng-readonly="readonly"/>
               </div>
             </div>
             <div class="form-group">
               <label for="time" class="col-xs-4 col-sm-4 control-label">Time</label>
               <div class="col-xs-8 col-sm-4">
-                <input type="time" class="form-control" id="time" ng-model="competition.date"/>
+                <input type="time" class="form-control" id="time" ng-model="competition.date" ng-readonly="readonly"/>
               </div>
             </div>
           </form>
@@ -41,7 +41,8 @@
                 <td>
                   <input type="checkbox"
                          ng-checked="isCompetitor($index)"
-                         ng-click="toggleCompetitor($index)">
+                         ng-click="toggleCompetitor($index)"
+                         ng-disabled="readonly">
                 </td>
               </tr>
             </tbody>
@@ -62,7 +63,8 @@
                 <td ng-repeat="tag in league.tags">
                   <input type="checkbox"
                          ng-checked="isTagSelected(competitor, $index)"
-                         ng-click="toggleTagSelection(competitor, $index)">
+                         ng-click="toggleTagSelection(competitor, $index)"
+                         ng-disabled="readonly">
                 </td>
               </tr>
             </tbody>
@@ -81,7 +83,8 @@
               <tr ng-repeat="competitor in competition.competitors">
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competition.competitors">
-                  <result league="league" competition="competition" competitor="competitor" opponent="opponent"></result>
+                  <result league="league" competition="competition" competitor="competitor"
+                          opponent="opponent" readonly="readonly"></result>
                   <span ng-show="competitor === opponent">-</span>
                 </td>
               </tr>
@@ -122,7 +125,11 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <button class="btn" ng-class="{ 'btn-info': dirty, 'btn-default': !dirty }" ng-click="save()" ng-disabled="!dirty">
+      <button class="btn"
+              ng-class="{ 'btn-info': dirty, 'btn-default': !dirty }"
+              ng-click="save()"
+              ng-disabled="!dirty"
+              ng-show="!readonly">
         <i class="fa fa-save"></i> Save{{!dirty? 'd' : ' now'}}
       </button>
       <button class="btn btn-success"

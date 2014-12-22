@@ -48,7 +48,8 @@ angular.module('instaleagueApp').directive('result', function ($modal, _) {
       league: '=',
       competition: '=',
       competitor: '=',
-      opponent: '='
+      opponent: '=',
+      readonly: '='
     },
     link: function(scope) {
       scope.editResult = editResult(scope);
