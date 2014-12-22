@@ -39,7 +39,13 @@ angular.module('instaleagueApp')
     setCompetition(competition.data);
 
     $scope.save = function() {
-      $http.put('/api/competitions/' + $scope.competition._id, $scope.competition).success(function(competition) {
+      var data = {
+        date: $scope.competition.date,
+        competitors: $scope.competition.competitors,
+        tags: $scope.competition.tags,
+        results: $scope.competition.results
+      };
+      $http.put('/api/competitions/' + $scope.competition._id, data).success(function(competition) {
         setCompetition(competition);
       });
     };
