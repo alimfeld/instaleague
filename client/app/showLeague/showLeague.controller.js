@@ -17,7 +17,6 @@ angular.module('instaleagueApp').controller('ShowLeagueCtrl',
   $scope.competitions = competitions.data;
 
   $scope.me = Auth.getCurrentUser()._id;
-  $scope.canManage = $scope.me === $scope.league.owner;
 
   $scope.newCompetition = function() {
     $http.post('/api/competitions', {
