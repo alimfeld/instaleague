@@ -1,13 +1,21 @@
 'use strict';
 
 var _ = require('lodash'),
-    League = require('./league.model');
+    League = require('./league.model'),
+    Competition = require('../competition/competition.model');
 
 // Get list of leagues
 exports.index = function(req, res) {
   League.find({ owner: req.user._id }, function (err, leagues) {
     if(err) { return handleError(res, err); }
     return res.json(200, leagues);
+  });
+};
+
+exports.competitions = function(req, res) {
+  Competition.find({ 'league.id': req.params.id }, 'date confirmed competitors owner', function(err, competitions) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, competitions);
   });
 };
 

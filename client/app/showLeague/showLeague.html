@@ -70,6 +70,22 @@
             </tbody>
           </table>
         </tab>
+        <tab>
+          <tab-heading><i class="fa fa-lg fa-history"></i></tab-heading>
+          <br>
+          <div class="list-group">
+            <a ng-repeat="competition in competitions"
+               href="/leagues/{{league._id}}/competitions/{{competition._id}}"
+               class="list-group-item">
+              {{ competition.date | date:'yyyy-MM-dd HH:mm' }}
+              <span class="pull-right">
+                <span class="label label-success" ng-show="competition.confirmed">confirmed</span>
+                <span class="label label-info" ng-show="me === competition.owner">by me</span>
+                <span class="label label-default">{{ competition.competitors.length }}</span>
+              </span>
+            </a>
+          </div>
+        </tab>
       </tabset>
     </div>
   </div>

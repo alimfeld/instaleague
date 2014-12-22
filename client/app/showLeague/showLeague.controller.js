@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('instaleagueApp').controller('ShowLeagueCtrl', function ($scope, $http, $location, _, Auth, league) {
+angular.module('instaleagueApp').controller('ShowLeagueCtrl',
+  function ($scope, $http, $location, _, Auth, league, competitions) {
 
   league.data.stats.sort(function(a, b) {
     return b.points - a.points;
@@ -10,7 +11,13 @@ angular.module('instaleagueApp').controller('ShowLeagueCtrl', function ($scope, 
   });
   $scope.league = league.data;
 
-  $scope.canManage = Auth.getCurrentUser()._id === $scope.league.owner;
+  competitions.data.sort(function(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+  $scope.competitions = competitions.data;
+
+  $scope.me = Auth.getCurrentUser()._id;
+  $scope.canManage = $scope.me === $scope.league.owner;
 
   $scope.newCompetition = function() {
     $http.post('/api/competitions', {
