@@ -3,7 +3,7 @@
 angular.module('instaleagueApp').controller('MainCtrl', function ($scope, Auth, leagues, competitions) {
 
   leagues.data.sort(function(a, b) {
-    return a.updated - b.updated;
+    return new Date(b.updated) - new Date(a.updated);
   });
   $scope.leagues = leagues.data;
 
