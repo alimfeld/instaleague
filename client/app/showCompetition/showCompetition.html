@@ -125,11 +125,19 @@
       <button class="btn" ng-class="{ 'btn-info': dirty, 'btn-default': !dirty }" ng-click="save()" ng-disabled="!dirty">
         <i class="fa fa-save"></i> Save{{!dirty? 'd' : ' now'}}
       </button>
-      <button class="btn btn-success" ng-click="confirm()" ng-disabled="dirty" ng-show="!competition.confirmed && leagueOwner">
+      <button class="btn btn-success"
+              really-click="confirm()"
+              really-message="Confirm results and go back to league?"
+              ng-disabled="dirty"
+              ng-show="!competition.confirmed && leagueOwner">
         <i class="fa fa-check-square-o"></i>
         Confirm
       </button>
-      <button class="btn btn-danger" ng-click="delete()" ng-disabled="dirty" ng-show="!competition.confirmed && competitionOwner || leagueOwner">
+      <button class="btn btn-danger"
+              really-click="delete()"
+              really-message="Do you really want to permanently delete this competition?"
+              ng-disabled="dirty"
+              ng-show="!competition.confirmed && competitionOwner || leagueOwner">
         <i class="fa fa-trash-o"></i>
         Delete
       </button>
