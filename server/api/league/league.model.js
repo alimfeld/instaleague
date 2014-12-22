@@ -46,7 +46,15 @@ LeagueSchema.pre('save', function(next) {
   next();
 });
 
+Competition.schema.post('remove', function(competition) {
+  updateLeague(competition);
+});
+
 Competition.schema.post('save', function(competition) {
+  updateLeague(competition);
+});
+
+function updateLeague(competition) {
   if (competition.confirmed) {
     League.findById(new ObjectId(competition.league.id), function(err, league) {
       if (err) {
@@ -56,7 +64,7 @@ Competition.schema.post('save', function(competition) {
       updateStats(league);
     });
   }
-});
+}
 
 function updateStats(league) {
   getStats(league).then(function(stats) {

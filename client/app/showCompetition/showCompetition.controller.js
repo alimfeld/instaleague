@@ -75,9 +75,17 @@ angular.module('instaleagueApp')
     };
 
     $scope.me = Auth.getCurrentUser();
+    $scope.leagueOwner = $scope.me._id === $scope.league.owner;
+    $scope.competitionOwner = $scope.me._id === $scope.competition.owner;
 
     $scope.confirm = function() {
       $http.post('/api/competitions/' + $scope.competition._id + '/actions', { action: 'confirm' }).success(function() {
+        $location.path('/leagues/' + $scope.competition.league.id);
+      });
+    };
+
+    $scope.delete = function() {
+      $http.delete('/api/competitions/' + $scope.competition._id).success(function() {
         $location.path('/leagues/' + $scope.competition.league.id);
       });
     };
