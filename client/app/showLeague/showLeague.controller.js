@@ -19,8 +19,11 @@ angular.module('instaleagueApp').controller('ShowLeagueCtrl',
   $scope.me = Auth.getCurrentUser()._id;
 
   $scope.newCompetition = function() {
+    var date = new Date();
+    date.setSeconds(0);
+    date.setMilliseconds(0);
     $http.post('/api/competitions', {
-      date: new Date(),
+      date: date,
       league: {
         id: $scope.league._id
       },
