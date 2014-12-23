@@ -89,9 +89,17 @@
             </a>
           </div>
         </tab>
+        <tab select="showChart(true)" deselect="showChart(false)">
+          <tab-heading>
+            <i class="fa fa-lg fa-line-chart" ng-if="competitions"></i>
+            <i class="fa fa-lg fa-spinner fa-spin" ng-if="!competitions"></i>
+          </tab-heading>
+          <br>
+        </tab>
       </tabset>
     </div>
   </div>
+  <league-chart league="league" competitions="competitions" ng-if="shouldShowChart && competitions"></league-chart>
   <div class="row" ng-show="me">
     <div class="col-xs-12">
       <a class="btn btn-default" href="" ng-click="newCompetition()"><i class="fa fa-plus-circle"></i> New competition...</a>

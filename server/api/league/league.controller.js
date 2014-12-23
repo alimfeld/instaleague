@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 };
 
 exports.competitions = function(req, res) {
-  Competition.find({ 'league.id': req.params.id }, 'date competitors owner confirmed', function(err, competitions) {
+  Competition.find({ 'league.id': req.params.id }, 'date competitors stats owner confirmed', function(err, competitions) {
     if (err) { return handleError(res, err); }
     return res.json(200, competitions);
   });

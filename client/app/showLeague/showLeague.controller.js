@@ -35,4 +35,11 @@ angular.module('instaleagueApp').controller('ShowLeagueCtrl',
       $location.path('/leagues/' + $scope.league._id + '/competitions/' + competition._id);
     });
   };
+
+  // The league chart is not placed in a tab to circumvent the following issue:
+  // https://github.com/n3-charts/line-chart/issues/107
+  // The chart is toggled using this function called from select/deselect triggers on the tab
+  $scope.showChart = function(show) {
+    $scope.shouldShowChart = show;
+  };
 });
