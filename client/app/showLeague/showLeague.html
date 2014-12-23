@@ -71,9 +71,12 @@
           </table>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-lg fa-history"></i></tab-heading>
+          <tab-heading>
+            <i class="fa fa-lg fa-history" ng-if="competitions"></i>
+            <i class="fa fa-lg fa-spinner fa-spin" ng-if="!competitions"></i>
+          </tab-heading>
           <br>
-          <div class="list-group">
+          <div class="list-group" ng-if="competitions">
             <a ng-repeat="competition in competitions"
                href="/leagues/{{league._id}}/competitions/{{competition._id}}"
                class="list-group-item">

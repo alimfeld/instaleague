@@ -10,9 +10,6 @@ angular.module('instaleagueApp')
         resolve: {
           league: function($http, $stateParams) {
             return $http.get('/api/leagues/' + $stateParams.league);
-          },
-          competitions: function($http, $stateParams) {
-            return $http.get('/api/leagues/' + $stateParams.league + '/competitions');
           }
         }
       });

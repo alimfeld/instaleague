@@ -1,7 +1,15 @@
 'use strict';
 
 angular.module('instaleagueApp').controller('ShowLeagueCtrl',
-  function ($scope, $http, $location, _, Auth, league, competitions) {
+  function ($scope, $http, $location, $stateParams, _, Auth, league) {
+
+  // "lazy" load competitions
+  $http.get('/api/leagues/' + $stateParams.league + '/competitions').success(function(competitions) {
+    competitions.sort(function(a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+    $scope.competitions = competitions;
+  });
 
   league.data.stats.sort(function(a, b) {
     return b.points - a.points;
@@ -10,11 +18,6 @@ angular.module('instaleagueApp').controller('ShowLeagueCtrl',
     stat.indexedVersus =  _.indexBy(stat.versus, 'opponent');
   });
   $scope.league = league.data;
-
-  competitions.data.sort(function(a, b) {
-    return new Date(b.date) - new Date(a.date);
-  });
-  $scope.competitions = competitions.data;
 
   $scope.me = Auth.getCurrentUser()._id;
 
