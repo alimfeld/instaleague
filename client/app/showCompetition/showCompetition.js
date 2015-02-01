@@ -7,7 +7,6 @@ angular.module('instaleagueApp')
         url: '/leagues/{league}/competitions/{competition}',
         templateUrl: 'app/showCompetition/showCompetition.html',
         controller: 'ShowCompetitionCtrl',
-        authenticate: true,
         resolve: {
           league: function($http, $stateParams) {
             return $http.get('/api/leagues/' + $stateParams.league);

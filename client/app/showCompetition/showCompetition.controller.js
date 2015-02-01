@@ -80,10 +80,10 @@ angular.module('instaleagueApp')
       }
     };
 
-    $scope.me = Auth.getCurrentUser();
-    $scope.leagueOwner = $scope.me._id === $scope.league.owner;
-    $scope.competitionOwner = $scope.me._id === $scope.competition.owner;
-    $scope.readonly = !$scope.leagueOwner && $scope.competition.confirmed;
+    var me = Auth.getCurrentUser()._id;
+    $scope.leagueOwner = me === $scope.league.owner;
+    $scope.competitionOwner = me === $scope.competition.owner;
+    $scope.readonly = !$scope.leagueOwner && !($scope.competitionOwner && !$scope.competition.confirmed);
 
     $scope.confirm = function() {
       $http.post('/api/competitions/' + $scope.competition._id + '/actions', { action: 'confirm' }).success(function() {
