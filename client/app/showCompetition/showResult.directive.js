@@ -49,7 +49,7 @@ angular.module('instaleagueApp').directive('result', function ($modal, _) {
       competition: '=',
       competitor: '=',
       opponent: '=',
-      readonly: '='
+      readonly: '=ro'
     },
     link: function(scope) {
       scope.editResult = editResult(scope);

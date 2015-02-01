@@ -84,7 +84,7 @@
                 <th>{{ league.competitors[competitor] }}</th>
                 <td class="result" ng-repeat="opponent in competition.competitors">
                   <result league="league" competition="competition" competitor="competitor"
-                          opponent="opponent" readonly="readonly"></result>
+                          opponent="opponent" ro="readonly"></result>
                   <span ng-show="competitor === opponent">-</span>
                 </td>
               </tr>
