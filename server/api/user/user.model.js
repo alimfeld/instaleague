@@ -79,8 +79,9 @@ UserSchema
 UserSchema
   .path('email')
   .validate(function(value, respond) {
+    if (this.provider !== 'local') return true;
     var self = this;
-    this.constructor.findOne({email: value}, function(err, user) {
+    this.constructor.findOne({email: value, provider: 'local'}, function(err, user) {
       if(err) throw err;
       if(user) {
         if(self.id === user.id) return respond(true);
