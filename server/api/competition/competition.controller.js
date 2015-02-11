@@ -3,8 +3,8 @@
 var _ = require('lodash'),
     Competition = require('./competition.model');
 
-// Get list of competitions
-exports.index = function(req, res) {
+// Get list of my competitions
+exports.mine = function(req, res) {
   // only show competitions that are not yet confirmed
   // and the user is either the competition or the league owner;
   // i.e. the user has created the competition or needs to confirm it

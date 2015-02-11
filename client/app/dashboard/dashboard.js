@@ -3,17 +3,17 @@
 angular.module('instaleagueApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('main', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl',
+      .state('dashboard', {
+        url: '/dashboard',
+        templateUrl: 'app/dashboard/dashboard.html',
+        controller: 'DashboardCtrl',
         authenticate: true,
         resolve: {
           leagues: function($http) {
-            return $http.get('/api/leagues');
+            return $http.get('/api/leagues/mine');
           },
           competitions: function($http) {
-            return $http.get('/api/competitions');
+            return $http.get('/api/competitions/mine');
           }
         }
       });

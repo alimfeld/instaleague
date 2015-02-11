@@ -8,12 +8,7 @@ angular.module('instaleagueApp')
 
     $scope.logout = function() {
       Auth.logout();
-      $location.path('/login');
-    };
-
-    $scope.isLocalUser = function() {
-      var user = Auth.getCurrentUser();
-      return user && user.provider === 'local';
+      $location.path('/');
     };
 
     $scope.isActive = function(route) {

@@ -6,6 +6,14 @@ var _ = require('lodash'),
 
 // Get list of leagues
 exports.index = function(req, res) {
+  League.find({ name: new RegExp(req.query.name, 'i')}, function (err, leagues) {
+    if (err) { return handleError(res, err); }
+    return res.json(200, leagues);
+  });
+};
+
+// Get list of my leagues
+exports.mine = function(req, res) {
   League.find({ owner: req.user._id }, function (err, leagues) {
     if (err) { return handleError(res, err); }
     return res.json(200, leagues);

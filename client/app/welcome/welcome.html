@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Instaleague</h1>
+      <p>Instant league creation and management.</p>
+      <input type="text" class="form-control"
+             ng-model="search" ng-model-options="{ debounce: 500 }"
+             placeholder="Search for a league... (min. 3 characters)" autofocus>
+      <br>
+      <div class="list-group">
+        <a ng-repeat="league in leagues"
+           href="/leagues/{{ league._id }}"
+           class="list-group-item">{{ league.name }} <small class="pull-right">{{ league.updated | date:'yyyy-MM-dd HH:mm' }}</small></a>
+      </div>
+    </div>
+  </div>
+</div>

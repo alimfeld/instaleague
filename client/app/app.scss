@@ -39,12 +39,20 @@ li.active .badge {
   color: #428bca;
 }
 
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
-@import 'main/main.scss';
+@import 'dashboard/dashboard.scss';
 @import 'newLeague/newLeague.scss';
 @import 'showCompetition/showCompetition.scss';
 @import 'showLeague/showLeague.scss';
+@import 'welcome/welcome.scss';
 @import 'modal/modal.scss';
 // endinjector
