@@ -10,6 +10,7 @@ var LeagueSchema = new Schema({
   competitors: [String],
   tags: [String],
   // derived
+  competitions: Number,
   stats: [{
     competitor: Number,
     competitions: Number,
@@ -94,14 +95,21 @@ function updateStats(league) {
           result.push(stat);
         });
         league.stats = result;
-        league.save(function(err) {
-          if (err) {
-            console.log(err);
-          }
+        countConfirmedCompetitions(league).then(function(count) {
+          league.competitions = count;
+          league.save(function(err) {
+            if (err) {
+              console.log(err);
+            }
+          });
         });
       });
     });
   });
+}
+
+function countConfirmedCompetitions(league) {
+  return Competition.where({ 'league.id': league._id, confirmed: true}).count().exec();
 }
 
 function getStats(league) {

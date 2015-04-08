@@ -19,7 +19,7 @@
             <tr>
               <th></th>
               <th>Points</th>
-              <th>C (G) <hint text="Competitions played (Games played)"></hint></th>
+              <th>C (%) <hint text="Competitions played (Percentage of all competitions)"></hint></th>
               <th>W/D/L <hint text="Total Wins / Draws / Losses"></hint></th>
             </tr>
             </thead>
@@ -27,8 +27,8 @@
             <tr ng-repeat="stat in league.stats">
               <th>{{ $index + 1 }}. {{ league.competitors[stat.competitor] }}</th>
               <th>{{ stat.points || 0 | number : 2 }}</th>
-              <td>{{ stat.competitions || 0 }} ({{ stat.games || 0 }})</td>
-              <td>{{ stat.wins || 0 }}/{{ stat.draws || 0 }}/{{ stat.losses || 0 }}</td>
+              <td>{{ stat.competitions || 0 }} ({{ stat.competitions / league.competitions * 100 | number : 0 }}%)</td>
+              <td>{{ stat.wins || 0 }}/{{ stat.draws || 0 }}/{{ stat.losses || 0 }}</td:
             </tr>
             </tbody>
           </table>
