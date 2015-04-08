@@ -12,9 +12,7 @@ exports.mine = function(req, res) {
     $or: [{
       owner: req.user._id
     }, {
-      league: {
-        owner: req.user._id
-      }
+      'league.owner': req.user._id
     }],
     confirmed: false
   };
